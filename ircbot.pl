@@ -5,6 +5,7 @@ use warnings;
 
 use POE;
 use POE::Component::IRC;
+use POE::Component::IRC::Plugin::Connector;
 use Switch;
 
 my $NICK = 'zabbixbot';
@@ -110,6 +111,10 @@ sub cmd_issue
 sub on_start
 {
     $irc->yield(register => 'all');
+
+    $_[HEAP]->{connector} = POE::Component::IRC::Plugin::Connector->new();
+    $irc->plugin_add('Connector' => $_[HEAP]->{connector});
+
     $irc->yield
     (
         connect =>
@@ -126,23 +131,6 @@ sub on_start
 sub on_connected
 {
     $irc->yield(join => $CHANNEL);
-
-    $_[HEAP]->{seen_traffic} = 1;
-    $_[KERNEL]->delay(my_autoping => 300);
-}
-
-sub on_disconnected
-{
-    $_[KERNEL]->delay(my_autoping => undef);
-    $_[KERNEL]->delay(my_reconnect => 60);
-}
-
-sub on_autoping
-{
-    $_[KERNEL]->post(userhost => $NICK) unless $_[HEAP]->{seen_traffic};
-
-    $_[HEAP]->{seen_traffic} = 0;
-    $_[KERNEL]->delay(my_autoping => 300);
 }
 
 sub on_public
@@ -172,14 +160,14 @@ sub on_public
         push @issues, map {uc} ($message =~ m/\b(\w{3,7}-\d{1,4})\b/g);
         @issues = @issues[-15 .. -1] if $#issues >= 15;
     }
-
-    $_[HEAP]->{seen_traffic} = 1;
 }
 
 sub on_default
 {
     my ($event, $args) = @_[ARG0 .. $#_];
     my @output = ();
+
+    return if $event eq '_child';
 
     foreach (@$args)
     {
@@ -197,10 +185,11 @@ sub on_default
     }
 
     printf "[%s] unhandled event '%s' with arguments <%s>\n", scalar localtime, $event, join ' ', @output;
+}
 
-    $_[HEAP]->{seen_traffic} = 1;
-
-    return 0;
+sub on_ignored
+{
+    # ignore event
 }
 
 ### connect to IRC
@@ -212,14 +201,9 @@ POE::Session->create
         _default         => \&on_default,
         _start           => \&on_start,
         irc_001          => \&on_connected,
-        irc_disconnected => \&on_disconnected,
-        irc_error        => \&on_disconnected,
-        irc_socketerr    => \&on_disconnected,
         irc_public       => \&on_public,
-        my_autoping      => \&on_autoping,
-        my_reconnect     => \&on_start,
 
-        map { ; "irc_$_" => sub { $_[HEAP]->{seen_traffic} = 1; } }
+        map { ; "irc_$_" => \&on_ignored }
             qw(connected isupport join mode notice part ping registered quit
                002 003 004 005 251 254 255 265 266 332 333 353 366 422 451)
     }
