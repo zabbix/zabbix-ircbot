@@ -71,15 +71,15 @@ sub get_issue
 {
     return $issues{$_[0]} if exists $issues{$_[0]};
 
-    my $html = `curl --silent https://support.zabbix.com/browse/$_[0]` or return "ERROR: Could not fetch issue description.";
+    my $json = `curl --silent https://support.zabbix.com/rest/api/2/issue/$_[0]?fields=summary` or return "ERROR: Could not fetch issue description.";
 
-    if (my ($descr) = $html =~ m!<title>\[$_[0]\] ([^<]+) - ZABBIX SUPPORT</title>!s)
+    if (my ($descr) = $json =~ m!summary":"(.+)"}!)
     {
         return +($issues{$_[0]} = "[$_[0]] $descr (URL: https://support.zabbix.com/browse/$_[0]).");
     }
     else
     {
-        my ($error) = $html =~ m!<title>([^<]+) - ZABBIX SUPPORT</title>!s;
+        my ($error) = $json =~ m!errorMessages":\["(.+)"\]!;
         $error = 'unknown' unless $error;
         $error = lc $error;
 
