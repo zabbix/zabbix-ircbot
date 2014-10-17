@@ -75,6 +75,7 @@ sub get_issue
 
     if (my ($descr) = $json =~ m!summary":"(.+)"}!)
     {
+        $descr =~ s/\\([\\"])/$1/g;
         return +($issues{$_[0]} = "[$_[0]] $descr (URL: https://support.zabbix.com/browse/$_[0]).");
     }
     else
