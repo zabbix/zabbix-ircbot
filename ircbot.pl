@@ -203,6 +203,7 @@ POE::Session->create
         _start           => \&on_start,
         irc_001          => \&on_connected,
         irc_public       => \&on_public,
+        irc_ctcp_action  => \&on_public,
 
         map { ; "irc_$_" => \&on_ignored }
             qw(connected isupport join mode notice part ping registered quit
