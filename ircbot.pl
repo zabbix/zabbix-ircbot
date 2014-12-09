@@ -32,6 +32,8 @@ my %COMMANDS =
     issue => { function => \&cmd_issue, usage => 'issue <n|jira> - fetch issue description' },
 );
 
+my @ignored_commands = qw (note quote);
+
 sub get_command
 {
     my @commands = ();
@@ -146,6 +148,7 @@ sub on_public
 
     if (my ($prefix, $argument) = $message =~ m/^!(\w+)\b(.*)/g)
     {
+        if (grep { /^$prefix$/ } @ignored_commands) { return };
         my $command = get_command $prefix;
         $argument =~ s/^\s+|\s+$//g if $argument;
 
