@@ -7,6 +7,7 @@ use POE;
 use POE::Component::IRC;
 use POE::Component::IRC::Plugin::Connector;
 use Switch;
+use JSON::XS qw( decode_json );
 
 my $NICK = 'zabbixbot';
 my $USER = 'zabbixbot';
@@ -14,6 +15,19 @@ my $REAL = 'Zabbix IRC Bot';
 my $SERVER = 'irc.freenode.net';
 my $PORT = 6667;
 my $CHANNEL = '#zabbix';
+
+my $config_file = "ircbot.conf";
+
+### default configuration parameters
+my $config->{jira_host} = "https://support.zabbix.com";
+
+### read configuration
+
+if (open (my $fh, '<:raw', $config_file)) {
+    my $file; { local $/; $file = <$fh>; }
+    # if present in the JSON structure, will override parameters that were defined above
+    $config = decode_json($file);
+}
 
 my ($irc) = POE::Component::IRC->spawn();
 
@@ -73,7 +87,7 @@ sub get_issue
 {
     return $issues{$_[0]} if exists $issues{$_[0]};
 
-    my $json = `curl --silent https://support.zabbix.com/rest/api/2/issue/$_[0]?fields=summary` or return "ERROR: Could not fetch issue description.";
+    my $json = `curl --silent $config->{curl_flags} $config->{jira_host}/rest/api/2/issue/$_[0]?fields=summary` or return "ERROR: Could not fetch issue description.";
 
     if (my ($descr) = $json =~ m!summary":"(.+)"}!)
     {
