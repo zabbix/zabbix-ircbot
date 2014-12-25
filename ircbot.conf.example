@@ -1,0 +1,10 @@
+{
+    "channel": "#zabbix",
+    "curl_flags": "--insecure",
+    "jira_host": "https://192.168.1.123:8888",
+    "nick": "zabbixbotty",
+    "port": "6667",
+    "real": "Zabbix IRC Bot",
+    "server": "irc.freenode.net",
+    "user": "zabbix"
+}
