@@ -9,24 +9,26 @@ use POE::Component::IRC::Plugin::Connector;
 use Switch;
 use JSON::XS qw( decode_json );
 
-my $NICK = 'zabbixbot';
-my $USER = 'zabbixbot';
-my $REAL = 'Zabbix IRC Bot';
-my $SERVER = 'irc.freenode.net';
-my $PORT = 6667;
-my $CHANNEL = '#zabbix';
-
 my $config_file = "ircbot.conf";
 
 ### default configuration parameters
-my $config->{jira_host} = "https://support.zabbix.com";
+my $config = {};
+$config->{channel} = "#zabbix";
+$config->{curl_flags} = "";
+$config->{jira_host} = "https://support.zabbix.com";
+$config->{nick} = "zabbix";
+$config->{port} = "6667";
+$config->{real} = "Zabbix IRC Bot";
+$config->{server} = "irc.freenode.net";
+$config->{user} = "zabbix";
 
 ### read configuration
 
 if (open (my $fh, '<:raw', $config_file)) {
     my $file; { local $/; $file = <$fh>; }
     # if present in the JSON structure, will override parameters that were defined above
-    $config = decode_json($file);
+    my $config_read = decode_json($file);
+    @$config{keys %$config_read} = values %$config_read;
 }
 
 my ($irc) = POE::Component::IRC->spawn();
@@ -35,7 +37,7 @@ my ($irc) = POE::Component::IRC->spawn();
 
 sub reply
 {
-    $irc->yield(privmsg => $CHANNEL, $_[0]);
+    $irc->yield(privmsg => $config->{channel}, $_[0]);
 }
 
 ### public interface
@@ -136,18 +138,18 @@ sub on_start
     (
         connect =>
         {
-            Nick     => $NICK,
-            Username => $USER,
-            Ircname  => $REAL,
-            Server   => $SERVER,
-            Port     => $PORT
+            Nick     => $config->{nick},
+            Username => $config->{user},
+            Ircname  => $config->{real},
+            Server   => $config->{server},
+            Port     => $config->{port},
         }
     );
 }
 
 sub on_connected
 {
-    $irc->yield(join => $CHANNEL);
+    $irc->yield(join => $config->{channel});
 }
 
 sub on_public
