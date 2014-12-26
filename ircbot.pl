@@ -7,9 +7,11 @@ use POE;
 use POE::Component::IRC;
 use POE::Component::IRC::Plugin::Connector;
 use Switch;
-use JSON::XS qw( decode_json );
+use JSON::XS;
 
 my $config_file = "ircbot.conf";
+my $datadir="data";
+my $item_key_file="$datadir/item_keys.json";
 
 ### default configuration parameters
 my $config = {};
@@ -23,13 +25,19 @@ $config->{server} = "irc.freenode.net";
 $config->{user} = "zabbix";
 
 ### read configuration
-
 if (open (my $fh, '<:raw', $config_file)) {
-    my $file; { local $/; $file = <$fh>; }
+    my $configcontents; { local $/; $configcontents = <$fh>; }
     # if present in the JSON structure, will override parameters that were defined above
-    my $config_read = decode_json($file);
+    close $fh;
+    my $config_read = decode_json($configcontents);
     @$config{keys %$config_read} = values %$config_read;
 }
+
+### read item keys
+open (my $fh, '<:raw', $item_key_file) or die "Can't open $item_key_file";
+my $itemkeycontents; { local $/; $itemkeycontents = <$fh>; }
+close $fh;
+my $itemkeys_read = decode_json($itemkeycontents);
 
 my ($irc) = POE::Component::IRC->spawn();
 
@@ -44,8 +52,9 @@ sub reply
 
 my %COMMANDS =
 (
-    help  => { function => \&cmd_help,  usage => 'help <command> - print usage information' },
-    issue => { function => \&cmd_issue, usage => 'issue <n|jira> - fetch issue description' },
+    help  => { function => \&cmd_help,  usage => 'help <command> - print usage information'   },
+    issue => { function => \&cmd_issue, usage => 'issue <n|jira> - fetch issue description'   },
+    key   => { function => \&cmd_key,   usage => 'key <item key> - show item key description' },
 );
 
 my @ignored_commands = qw (note quote);
@@ -60,6 +69,17 @@ sub get_command
     }
 
     return join ', ', sort @commands;
+}
+
+sub get_itemkey
+{
+    my @itemkeys = ();
+    foreach my $itemkey (keys $itemkeys_read)
+    {
+        push @itemkeys, $itemkey if $itemkey =~ m/^$_[0]/;
+    }
+
+    return join ', ', sort @itemkeys;
 }
 
 sub cmd_help
@@ -79,6 +99,25 @@ sub cmd_help
     {
         reply 'Available commands: ' . (join ', ', sort keys %COMMANDS) . '.';
         reply 'Type "!help <command>" to print usage information for a particular command.';
+    }
+}
+
+sub cmd_key
+{
+    if (@_)
+    {
+        my $itemkey = get_itemkey $_[0];
+
+        switch ($itemkey)
+        {
+            case ''   { reply "ERROR: Item key \"$_[0]\" not known.";                                  }
+            case /, / { reply "ERROR: Multiple item keys match \"$_[0]\" (candidates are: $itemkey)."; }
+            else      { reply "$itemkey: $itemkeys_read->{$itemkey}";                                  }
+        }
+    }
+    else
+    {
+        reply 'Type "!itemkey <item key>" to see item key description.';
     }
 }
 
