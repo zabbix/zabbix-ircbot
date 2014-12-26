@@ -76,7 +76,7 @@ sub get_itemkey
     my @itemkeys = ();
     foreach my $itemkey (keys $itemkeys_read)
     {
-        push @itemkeys, $itemkey if $itemkey =~ m/^$_[0]/;
+        push @itemkeys, $itemkey if $itemkey =~ m/^\Q$_[0]\E/;
     }
 
     return join ', ', sort @itemkeys;
