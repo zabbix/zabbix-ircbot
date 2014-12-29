@@ -117,7 +117,7 @@ sub cmd_key
     }
     else
     {
-        reply 'Type "!itemkey <item key>" to see item key description.';
+        reply 'Type "!key <item key>" to see item key description.';
     }
 }
 
