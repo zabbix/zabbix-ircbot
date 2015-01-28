@@ -34,14 +34,16 @@ if (open (my $fh, '<:raw', $config_file)) {
     @$config{keys %$config_read} = values %$config_read;
 }
 
+my $fh;
+
 ### read item keys
-open (my $fh, '<:raw', $item_key_file) or die "Can't open $item_key_file";
+open ($fh, '<:raw', $item_key_file) or die "Can't open $item_key_file";
 my $itemkeycontents; { local $/; $itemkeycontents = <$fh>; }
 close $fh;
 my $itemkeys_read = decode_json($itemkeycontents);
 
 ### read helper topics
-open (my $fh, '<:raw', $topic_file) or die "Can't open $topic_file";
+open ($fh, '<:raw', $topic_file) or die "Can't open $topic_file";
 my $topiccontents; { local $/; $topiccontents = <$fh>; }
 close $fh;
 my $topics_read = decode_json($topiccontents);
