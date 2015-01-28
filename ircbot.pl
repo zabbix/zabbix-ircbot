@@ -12,6 +12,7 @@ use JSON::XS;
 my $config_file = "ircbot.conf";
 my $datadir="data";
 my $item_key_file="$datadir/item_keys.json";
+my $topic_file="$datadir/topics.json";
 
 ### default configuration parameters
 my $config = {};
@@ -39,6 +40,12 @@ my $itemkeycontents; { local $/; $itemkeycontents = <$fh>; }
 close $fh;
 my $itemkeys_read = decode_json($itemkeycontents);
 
+### read helper topics
+open (my $fh, '<:raw', $topic_file) or die "Can't open $topic_file";
+my $topiccontents; { local $/; $topiccontents = <$fh>; }
+close $fh;
+my $topics_read = decode_json($topiccontents);
+
 my ($irc) = POE::Component::IRC->spawn();
 
 ### helper functions
@@ -55,6 +62,7 @@ my %COMMANDS =
     help  => { function => \&cmd_help,  usage => 'help <command> - print usage information'   },
     issue => { function => \&cmd_issue, usage => 'issue <n|jira> - fetch issue description'   },
     key   => { function => \&cmd_key,   usage => 'key <item key> - show item key description' },
+    topic => { function => \&cmd_topic, usage => 'topic <topic>  - show short help message about the topic' },
 );
 
 my @ignored_commands = qw (note quote);
@@ -80,6 +88,17 @@ sub get_itemkey
     }
 
     return join ', ', sort @itemkeys;
+}
+
+sub get_topic
+{
+    my @topics = ();
+    foreach my $topic (keys $topics_read)
+    {
+        push @topics, $topic if $topic =~ m/^\Q$_[0]\E/;
+    }
+
+    return join ', ', sort @topics;
 }
 
 sub cmd_help
@@ -118,6 +137,25 @@ sub cmd_key
     else
     {
         reply 'Type "!key <item key>" to see item key description.';
+    }
+}
+
+sub cmd_topic
+{
+    if (@_)
+    {
+        my $topic = get_topic $_[0];
+
+        switch ($topic)
+        {
+            case ''   { reply "ERROR: Topic \"$_[0]\" not known.";                                }
+            case /, / { reply "ERROR: Multiple topics match \"$_[0]\" (candidates are: $topic)."; }
+            else      { reply "$topic: $topics_read->{$topic}";                                   }
+        }
+    }
+    else
+    {
+        reply 'Type "!topic <topic>" to see simple help message about the topic.';
     }
 }
 

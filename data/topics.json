@@ -1,0 +1,4 @@
+{
+   "sender": "Commandline utility zabbix_sender. See https://www.zabbix.com/documentation/3.0/manpages/zabbix_sender",
+   "appliance": "Zabbix virtual appliance. See https://www.zabbix.com/documentation/3.0/manual/appliance",
+}
