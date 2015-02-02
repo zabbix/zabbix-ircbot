@@ -1,5 +1,6 @@
 {
    "sender": "Commandline utility zabbix_sender. See https://www.zabbix.com/documentation/3.0/manpages/zabbix_sender",
    "appliance": "Zabbix virtual appliance. See https://www.zabbix.com/documentation/3.0/manual/appliance",
-   "remotecommands": "Ability to run commands on Zabbix agents. See https://www.zabbix.com/documentation/3.0/manual/config/notifications/action/operation/remote_command"
+   "remotecommands": "Ability to run commands on Zabbix agents. See https://www.zabbix.com/documentation/3.0/manual/config/notifications/action/operation/remote_command",
+   "ServerActive": "Agent config param. Server or proxy to connect to. Multiple comma-delimited entries will make agent work with each server separately. Port can be delimited with a colon. See http://blog.zabbix.com/multiple-servers-for-active-agent-sure and https://www.zabbix.com/documentation/3.0/manual/appendix/config/zabbix_agentd"
 }
