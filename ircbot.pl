@@ -97,7 +97,7 @@ sub get_topic
     my @topics = ();
     foreach my $topic (keys $topics_read)
     {
-        push @topics, $topic if $topic =~ m/^\Q$_[0]\E/;
+        push @topics, $topic if $topic =~ m/^\Q$_[0]\E/i;
     }
 
     return join ', ', sort @topics;
