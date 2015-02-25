@@ -132,7 +132,7 @@ sub cmd_key
         switch ($itemkey)
         {
             case ''   { reply "ERROR: Item key \"$_[0]\" not known.";                                  }
-            case /, / { reply "ERROR: Multiple item keys match \"$_[0]\" (candidates are: $itemkey)."; }
+            case /, / { reply "Multiple item keys match \"$_[0]\" (candidates are: $itemkey)."; }
             else      { reply "$itemkey: $itemkeys_read->{$itemkey}";                                  }
         }
     }
@@ -151,7 +151,7 @@ sub cmd_topic
         switch ($topic)
         {
             case ''   { reply "ERROR: Topic \"$_[0]\" not known.";                                }
-            case /, / { reply "ERROR: Multiple topics match \"$_[0]\" (candidates are: $topic)."; }
+            case /, / { reply "Multiple topics match \"$_[0]\" (candidates are: $topic)."; }
             else      { reply "$topic: $topics_read->{$topic}";                                   }
         }
     }
