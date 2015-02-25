@@ -5,5 +5,5 @@
    "remotecommands": "Ability to run commands on Zabbix agents. See https://www.zabbix.com/documentation/3.0/manual/config/notifications/action/operation/remote_command",
    "ServerActive": "Agent config param. Server or proxy to connect to. Multiple comma-delimited entries will make agent work with each server separately. Port can be delimited with a colon. See http://blog.zabbix.com/multiple-servers-for-active-agent-sure and https://www.zabbix.com/documentation/3.0/manual/appendix/config/zabbix_agentd",
    "externalchecks": "Scripts that are run directly by Zabbix server or proxy. Must be located in a directory, specified in the 'ExternalScripts' server/proxy parameter. Parameters are comma-separated in the item key. See https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/external",
-   "LLD": "Low level discovery. Allows Zabbix to discover filesystems, network interfaces, SNMP OIDs and other things. See https://www.zabbix.com/documentation/3.0/manual/discovery/low_level_discovery"
+   "LLD": "Low level discovery. Allows Zabbix to discover filesystems, network interfaces, CPUs, SNMP OIDs and other things. See https://www.zabbix.com/documentation/3.0/manual/discovery/low_level_discovery"
 }
