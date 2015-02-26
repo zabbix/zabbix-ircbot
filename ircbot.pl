@@ -47,6 +47,7 @@ open ($fh, '<:raw', $topic_file) or die "Can't open $topic_file";
 my $topiccontents; { local $/; $topiccontents = <$fh>; }
 close $fh;
 my $topics_read = decode_json($topiccontents);
+my $alltopics = join(", ", sort {lc $a cmp lc $b} (keys $topics_read));
 
 my ($irc) = POE::Component::IRC->spawn();
 
@@ -157,7 +158,7 @@ sub cmd_topic
     }
     else
     {
-        reply 'Type "!topic <topic>" to see simple help message about the topic.';
+        reply "Available topics: $alltopics";
     }
 }
 
