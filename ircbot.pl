@@ -67,7 +67,7 @@ my %COMMANDS =
     topic => { function => \&cmd_topic, usage => 'topic <topic>  - show short help message about the topic' },
 );
 
-my @ignored_commands = qw (note quote time);
+my @ignored_commands = qw (getquote note quote time);
 
 sub get_command
 {
