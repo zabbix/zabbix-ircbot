@@ -45,9 +45,9 @@ my $itemkeys_read = decode_json($itemkeycontents);
 
 ### read helper topics
 
-our $topics_read;
-our $alltopics;
-our $nick;
+my $topics_read;
+my $alltopics;
+my $nick;
 
 sub read_topics
 {
