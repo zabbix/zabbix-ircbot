@@ -24,6 +24,7 @@ $config->{port} = "6667";
 $config->{real} = "Zabbix IRC Bot";
 $config->{server} = "irc.freenode.net";
 $config->{user} = "zabbix";
+$config->{reload_users} = ();
 
 ### read configuration
 if (open (my $fh, '<:raw', $config_file)) {
@@ -43,11 +44,21 @@ close $fh;
 my $itemkeys_read = decode_json($itemkeycontents);
 
 ### read helper topics
-open ($fh, '<:raw', $topic_file) or die "Can't open $topic_file";
-my $topiccontents; { local $/; $topiccontents = <$fh>; }
-close $fh;
-my $topics_read = decode_json($topiccontents);
-my $alltopics = join(", ", sort {lc $a cmp lc $b} (keys $topics_read));
+
+our $topics_read;
+our $alltopics;
+our $nick;
+
+sub read_topics
+{
+    open ($fh, '<:raw', $topic_file) or die "Can't open $topic_file";
+    my $topiccontents; { local $/; $topiccontents = <$fh>; }
+    close $fh;
+    $topics_read = decode_json($topiccontents);
+    $alltopics = join(", ", sort {lc $a cmp lc $b} (keys $topics_read));
+}
+
+read_topics
 
 my ($irc) = POE::Component::IRC->spawn();
 
@@ -66,6 +77,7 @@ my %COMMANDS =
     issue => { function => \&cmd_issue, usage => 'issue <n|jira> - fetch issue description'   },
     key   => { function => \&cmd_key,   usage => 'key <item key> - show item key description' },
     topic => { function => \&cmd_topic, usage => 'topic <topic>  - show short help message about the topic' },
+    reload=> { function => \&cmd_reload, usage => 'reload - reload topics' },
 );
 
 my @ignored_commands = qw (getquote note quote time);
@@ -162,6 +174,14 @@ sub cmd_topic
     }
 }
 
+sub cmd_reload
+{
+        if (!grep { $nick } $config->{reload_users}) { return };
+        {
+            read_topics
+        }
+}
+
 my @issues = ();
 my %issues = ();
 
@@ -236,7 +256,7 @@ sub on_public
 {
     my ($who, $where, $message) = @_[ARG0, ARG1, ARG2];
 
-    my $nick = (split /!/, $who)[0];
+    $nick = (split /!/, $who)[0];
     my $channel = $where->[0];
     my $timestamp = localtime;
 

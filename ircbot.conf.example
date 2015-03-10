@@ -6,5 +6,6 @@
     "port": "6667",
     "real": "Zabbix IRC Bot",
     "server": "irc.freenode.net",
-    "user": "zabbix"
+    "user": "zabbix",
+    "reload_users": ["some", "users"]
 }
