@@ -9,5 +9,5 @@
    "compatibility": "Zabbix server and proxies must be same major version (2.4.2 and 2.4.4 is ok); all older agent versions are supported down to 1.0; agents more recent than server/proxy are not supported. See https://www.zabbix.com/documentation/3.0/manual/appendix/compatibility",
    "ask": "Do not ask for a permission to ask a question. Ask right away to save time. Be specific right away so others do not have to spend time on clarifying the details you could have provided early on.",
    "timeshift": "Trigger function parameter that makes the function act as if it was transported some time ago. See https://www.zabbix.com/documentation/3.0/manual/config/triggers/expression",
-   "usermacros": "User macros (think of them as variables) allow to override trigger thresholds and function parameters, SNMP community and other parameters per host even if items come from a single teplate. See https://www.zabbix.com/documentation/3.0/manual/config/macros/usermacros"
+   "usermacros": "User macros (think of them as variables) allow to override trigger thresholds and function parameters, SNMP community and other parameters per host even if items come from a single template. See https://www.zabbix.com/documentation/3.0/manual/config/macros/usermacros"
 }
