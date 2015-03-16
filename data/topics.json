@@ -11,5 +11,5 @@
    "timeshift": "Trigger function parameter that makes the function act as if it was transported some time ago. See https://www.zabbix.com/documentation/3.0/manual/config/triggers/expression",
    "usermacros": "User macros (think of them as variables) allow to override trigger thresholds and function parameters, SNMP community and other parameters per host even if items come from a single template. See https://www.zabbix.com/documentation/3.0/manual/config/macros/usermacros",
    "discovery": "Always clarify what type of discovery a question is about - Zabbix has network discovery, low level discovery and active agent auto-registration.",
-   "aggregateitems": "Aggregate items allow to calculate data cross hostgroups - for example, average queries per second across all database servers or total diskspace on all fileservers. see https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/aggregate"
+   "aggregateitems": "Aggregate items allow to calculate data across hostgroups - for example, average queries per second across all database servers or total diskspace on all fileservers. see https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/aggregate"
 }
