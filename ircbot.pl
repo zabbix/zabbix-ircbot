@@ -83,7 +83,7 @@ my %COMMANDS =
     reload=> { function => \&cmd_reload, usage => 'reload - reload topics' },
 );
 
-my @ignored_commands = qw (getquote note quote time);
+my @ignored_commands = qw (getquote note quote time seen botsnack);
 
 sub get_command
 {
