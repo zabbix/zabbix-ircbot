@@ -8,6 +8,7 @@ use POE::Component::IRC;
 use POE::Component::IRC::Plugin::Connector;
 use Switch;
 use JSON::XS;
+use List::MoreUtils qw(any);
 
 my $config_file = "ircbot.conf";
 my $datadir="data";
@@ -48,6 +49,8 @@ my $itemkeys_read = decode_json($itemkeycontents);
 my $topics_read;
 my $alltopics;
 my $nick;
+my $auth;
+my $reload_users = $config->{reload_users};
 
 sub read_topics
 {
@@ -66,7 +69,7 @@ my ($irc) = POE::Component::IRC->spawn();
 
 sub reply
 {
-    $irc->yield(privmsg => $config->{channel}, $_[0]);
+    $irc->yield(privmsg => $_[0], $_[1]);
 }
 
 ### public interface
@@ -124,15 +127,15 @@ sub cmd_help
 
         switch ($command)
         {
-            case ''   { reply "ERROR: Command \"$_[0]\" does not exist.";                          }
-            case /, / { reply "ERROR: Command \"$_[0]\" is ambiguous (candidates are: $command)."; }
-            else      { reply $COMMANDS{$command}->{usage};                                        }
+            case ''   { return "ERROR: Command \"$_[0]\" does not exist.";                          }
+            case /, / { return "ERROR: Command \"$_[0]\" is ambiguous (candidates are: $command)."; }
+            else      { return $COMMANDS{$command}->{usage};                                        }
         }
     }
     else
     {
-        reply 'Available commands: ' . (join ', ', sort keys %COMMANDS) . '.';
-        reply 'Type "!help <command>" to print usage information for a particular command.';
+        return 'Available commands: ' . (join ', ', sort keys %COMMANDS) . '.';
+        return 'Type "!help <command>" to print usage information for a particular command.';
     }
 }
 
@@ -144,14 +147,14 @@ sub cmd_key
 
         switch ($itemkey)
         {
-            case ''   { reply "ERROR: Item key \"$_[0]\" not known.";                                  }
-            case /, / { reply "Multiple item keys match \"$_[0]\" (candidates are: $itemkey)."; }
-            else      { reply "$itemkey: $itemkeys_read->{$itemkey}";                                  }
+            case ''   { return "ERROR: Item key \"$_[0]\" not known.";                                  }
+            case /, / { return "Multiple item keys match \"$_[0]\" (candidates are: $itemkey)."; }
+            else      { return "$itemkey: $itemkeys_read->{$itemkey}";                                  }
         }
     }
     else
     {
-        reply 'Type "!key <item key>" to see item key description.';
+        return 'Type "!key <item key>" to see item key description.';
     }
 }
 
@@ -163,23 +166,29 @@ sub cmd_topic
 
         switch ($topic)
         {
-            case ''   { reply "ERROR: Topic \"$_[0]\" not known.";                                }
-            case /, / { reply "Multiple topics match \"$_[0]\" (candidates are: $topic)."; }
-            else      { reply "$topic: $topics_read->{$topic}";                                   }
+            case ''   { return "ERROR: Topic \"$_[0]\" not known.";                                }
+            case /, / { return "Multiple topics match \"$_[0]\" (candidates are: $topic)."; }
+            else      { return "$topic: $topics_read->{$topic}";                                   }
         }
     }
     else
     {
-        reply "Available topics: $alltopics";
+        return "Available topics: $alltopics";
     }
 }
 
 sub cmd_reload
 {
-        if (!grep { $nick } $config->{reload_users}) { return };
-        {
-            read_topics
-        }
+    if ($auth)
+    {
+        if (!any { $nick eq $_ } @$reload_users ) { return "ERROR: Not authorised to reload" };
+        read_topics;
+        return "Topics reloaded";
+    }
+    else
+    {
+        return "ERROR: Not identified with NickServ";
+    }
 }
 
 my @issues = ();
@@ -213,15 +222,15 @@ sub cmd_issue
 
     if ($issue =~ m/^\d+$/)
     {
-        reply +($issue - 1 <= $#issues ? get_issue($issues[-$issue]) : "ERROR: Issue \"$issue\" does not exist in chat history.");
+        return +($issue - 1 <= $#issues ? get_issue($issues[-$issue]) : "ERROR: Issue \"$issue\" does not exist in chat history.");
     }
     elsif ($issue =~ m/^\w{3,7}-\d{1,4}$/)
     {
-        reply get_issue($issue);
+        return get_issue($issue);
     }
     else
     {
-        reply "ERROR: Argument \"$_[0]\" is not a number or an issue identifier.";
+        return "ERROR: Argument \"$_[0]\" is not a number or an issue identifier.";
     }
 }
 
@@ -257,8 +266,10 @@ sub on_public
     my ($who, $where, $message) = @_[ARG0, ARG1, ARG2];
 
     $nick = (split /!/, $who)[0];
+    $auth = $_[ARG3];
     my $channel = $where->[0];
     my $timestamp = localtime;
+    my ($replymsg, $recipient);
 
     print "[$timestamp] $channel <$nick> $message\n";
 
@@ -270,9 +281,19 @@ sub on_public
 
         switch ($command)
         {
-            case ''   { reply "ERROR: Command \"$prefix\" does not exist.";                                         }
-            case /, / { reply "ERROR: Command \"$prefix\" is ambiguous (candidates are: $command).";                }
-            else      { $argument ? $COMMANDS{$command}->{function}($argument) : $COMMANDS{$command}->{function}(); }
+            case ''   { $replymsg = "ERROR: Command \"$prefix\" does not exist.";                                               }
+            case /, / { $replymsg = "ERROR: Command \"$prefix\" is ambiguous (candidates are: $command).";                      }
+            else      { $replymsg = $argument ? $COMMANDS{$command}->{function}($argument) : $COMMANDS{$command}->{function}(); }
+            if ($channel =~ m/^#/)
+            {
+                # message in a channel
+                $recipient = $channel;
+            }
+            else
+            {
+                $recipient = $nick;
+            }
+            reply ($recipient, $replymsg);
         }
     }
     else
@@ -323,6 +344,7 @@ POE::Session->create
         irc_001          => \&on_connected,
         irc_public       => \&on_public,
         irc_ctcp_action  => \&on_public,
+        irc_msg          => \&on_public,
 
         map { ; "irc_$_" => \&on_ignored }
             qw(connected isupport join mode notice part ping registered quit
