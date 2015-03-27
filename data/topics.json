@@ -13,5 +13,9 @@
    "discovery": "Always clarify what type of discovery a question is about - Zabbix has network discovery, low level discovery and active agent auto-registration.",
    "aggregateitems": "Aggregate items allow to calculate data across hostgroups - for example, average queries per second across all database servers or total diskspace on all fileservers. see https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/aggregate",
    "trunk": "Zabbix uses Subversion for version control. The most recent development branch is called \"trunk\" - it will become the next major release. Testing it allows to see new features early and can influence Zabbix development. See https://www.zabbix.org/wiki/Get_Zabbix",
-   "macros": "Macros (think of them as variables) in Zabbix allow to customise notifications, write more complex trigger expressions and lots of other things. See https://www.zabbix.com/documentation/3.0/manual/appendix/macros/supported_by_location"
+   "macros": "Macros (think of them as variables) in Zabbix allow to customise notifications, write more complex trigger expressions and lots of other things. See https://www.zabbix.com/documentation/3.0/manual/appendix/macros/supported_by_location",
+   "conference": "Zabbix conference in September 11-12, 2015. Riga, Latvia. Two days packed with interesting topics. See http://www.zabbix.com/conference2015.php",
+   "RMB": "Rīgas melnais balzams - Riga Black Balsam. Alcoholic drink in ceramic bottles, Riga specialty. Taken as a souvenir from trips to Riga",
+   "beer": "Annual tasting of Latvian beer happens in September, during the Zabbix conference",
+   "Riga": "Riga - capital of Latvia. Prettiest city in Europe according to USA Today. http://osm.org/go/0wMg--?m= https://en.wikivoyage.org/wiki/Riga"
 }
