@@ -17,5 +17,6 @@
    "conference": "Zabbix conference in September 11-12, 2015. Riga, Latvia. Two days packed with interesting topics. See http://www.zabbix.com/conference2015.php",
    "RMB": "Rīgas melnais balzams - Riga Black Balsam. Alcoholic drink in ceramic bottles, Riga specialty. Taken as a souvenir from trips to Riga",
    "beer": "Annual tasting of Latvian beer happens in September, during the Zabbix conference",
-   "Riga": "Riga - capital of Latvia. Prettiest city in Europe according to USA Today. http://osm.org/go/0wMg--?m= https://en.wikivoyage.org/wiki/Riga"
+   "Riga": "Riga - capital of Latvia. Prettiest city in Europe according to USA Today. http://osm.org/go/0wMg--?m= https://en.wikivoyage.org/wiki/Riga",
+   "maintenance": "Maintenance can be on host or host group level. One-time or recurring daily, weekly, monthly. See https://www.zabbix.com/documentation/3.0/manual/maintenance"
 }
