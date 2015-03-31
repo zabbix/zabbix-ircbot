@@ -18,5 +18,6 @@
    "RMB": "Rīgas melnais balzams - Riga Black Balsam. Alcoholic drink in ceramic bottles, Riga specialty. Taken as a souvenir from trips to Riga",
    "beer": "Annual tasting of Latvian beer happens in September, during the Zabbix conference",
    "Riga": "Riga - capital of Latvia. Prettiest city in Europe according to USA Today. http://osm.org/go/0wMg--?m= https://en.wikivoyage.org/wiki/Riga",
-   "maintenance": "Maintenance can be on host or host group level. One-time or recurring daily, weekly, monthly. See https://www.zabbix.com/documentation/3.0/manual/maintenance"
+   "maintenance": "Maintenance can be on host or host group level. One-time or recurring daily, weekly, monthly. See https://www.zabbix.com/documentation/3.0/manual/maintenance",
+   "API": "Zabbix JSON-RPC API. Allows to automate most of the Zabbix configuration. See https://www.zabbix.com/documentation/3.0/manual/api"
 }
