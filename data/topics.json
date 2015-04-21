@@ -20,5 +20,8 @@
    "Riga": "Riga - capital of Latvia. Prettiest city in Europe according to USA Today. http://osm.org/go/0wMg--?m= https://en.wikivoyage.org/wiki/Riga",
    "maintenance": "Maintenance can be on host or host group level. One-time or recurring daily, weekly, monthly. See https://www.zabbix.com/documentation/3.0/manual/maintenance",
    "API": "Zabbix JSON-RPC API. Allows to automate most of the Zabbix configuration. See https://www.zabbix.com/documentation/3.0/manual/api",
-   "alertscripts": "Ability to run a custom script from an action. Configured as a media type, must be located in AlertScriptsPath (server conf) directory. 'Send to' from user media, subject and msg body from action are passed to it as $1-3. See https://www.zabbix.com/documentation/3.0/manual/config/notifications/media/script"
+   "alertscripts": "Ability to run a custom script from an action. Configured as a media type, must be located in AlertScriptsPath (server conf) directory. 'Send to' from user media, subject and msg body from action are passed to it as $1-3. See https://www.zabbix.com/documentation/3.0/manual/config/notifications/media/script",
+   "activeagent": "Connects to the Zabbix server. Can send multiple values in one connection. See ServerActive and https://www.zabbix.com/documentation/3.0/manual/appendix/items/activepassive#active_checks",
+   "passiveagent": "Is contacted by the Zabbix server. One value per connection. See https://www.zabbix.com/documentation/3.0/manual/appendix/items/activepassive#passive_checks",
+   "agent": "Native monitoring agent on Linux, Windows and most UNIX systems. Can operate in active and passive mode at the same time. See activeagent, passiveagent and https://www.zabbix.com/documentation/3.0/manual/concepts/agent"
 }
