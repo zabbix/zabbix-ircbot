@@ -23,5 +23,7 @@
    "alertscripts": "Ability to run a custom script from an action. Configured as a media type, must be located in AlertScriptsPath (server conf) directory. 'Send to' from user media, subject and msg body from action are passed to it as $1-3. See https://www.zabbix.com/documentation/3.0/manual/config/notifications/media/script",
    "activeagent": "Connects to the Zabbix server. Can send multiple values in one connection. See ServerActive and https://www.zabbix.com/documentation/3.0/manual/appendix/items/activepassive#active_checks",
    "passiveagent": "Is contacted by the Zabbix server. One value per connection. See https://www.zabbix.com/documentation/3.0/manual/appendix/items/activepassive#passive_checks",
-   "agent": "Native monitoring agent on Linux, Windows and most UNIX systems. Can operate in active and passive mode at the same time. See activeagent, passiveagent and https://www.zabbix.com/documentation/3.0/manual/concepts/agent"
+   "agent": "Native monitoring agent on Linux, Windows and most UNIX systems. Can operate in active and passive mode at the same time. See activeagent, passiveagent and https://www.zabbix.com/documentation/3.0/manual/concepts/agent",
+   "agentpassive": "alias:passiveagent",
+   "agentactive": "alias:activeagent"
 }

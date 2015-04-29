@@ -168,7 +168,11 @@ sub cmd_topic
         {
             case ''   { return "ERROR: Topic \"$_[0]\" not known.";                                }
             case /, / { return "Multiple topics match \"$_[0]\" (candidates are: $topic)."; }
-            else      { return "$topic: $topics_read->{$topic}";                                   }
+            else
+            {
+                if ($topics_read->{$topic} =~ /^alias:/) {($topic) = $topics_read->{$topic} =~ m/^alias:(.+)/};
+                return "$topic: $topics_read->{$topic}";
+            }
         }
     }
     else
