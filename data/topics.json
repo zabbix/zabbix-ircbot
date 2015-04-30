@@ -25,5 +25,6 @@
    "passiveagent": "Is contacted by the Zabbix server. One value per connection. See https://www.zabbix.com/documentation/3.0/manual/appendix/items/activepassive#passive_checks",
    "agent": "Native monitoring agent on Linux, Windows and most UNIX systems. Can operate in active and passive mode at the same time. See activeagent, passiveagent and https://www.zabbix.com/documentation/3.0/manual/concepts/agent",
    "agentpassive": "alias:passiveagent",
-   "agentactive": "alias:activeagent"
+   "agentactive": "alias:activeagent",
+   "globalregexp": "A global regular expression, defined in Administration -> General -> Regular expressions. Can be used in LLD, logfile filtering and some other places. See https://www.zabbix.com/documentation/3.0/manual/regular_expressions"
 }
