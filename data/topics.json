@@ -1,6 +1,6 @@
 {
    "autoregistration": "Active Zabbix agent may automatically register a host on the Zabbix server. See https://www.zabbix.com/documentation/3.0/manual/discovery/auto_registration",
-   "sender": "Commandline utility zabbix_sender. See https://www.zabbix.com/documentation/3.0/manpages/zabbix_sender",
+   "sender": "Commandline utility zabbix_sender. Allows to send arbitrary values to \"Zabbix trapper\" items. See https://www.zabbix.com/documentation/3.0/manpages/zabbix_sender",
    "appliance": "Zabbix virtual appliance. See https://www.zabbix.com/documentation/3.0/manual/appliance",
    "remotecommands": "Ability to run commands on Zabbix agents. See https://www.zabbix.com/documentation/3.0/manual/config/notifications/action/operation/remote_command",
    "ServerActive": "Agent config param. Server or proxy to connect to. Multiple comma-delimited entries will make agent work with each server separately. Port can be delimited with a colon. See http://blog.zabbix.com/multiple-servers-for-active-agent-sure and https://www.zabbix.com/documentation/3.0/manual/appendix/config/zabbix_agentd",
@@ -26,5 +26,7 @@
    "agent": "Native monitoring agent on Linux, Windows and most UNIX systems. Can operate in active and passive mode at the same time. See activeagent, passiveagent and https://www.zabbix.com/documentation/3.0/manual/concepts/agent",
    "agentpassive": "alias:passiveagent",
    "agentactive": "alias:activeagent",
-   "globalregexp": "A global regular expression, defined in Administration -> General -> Regular expressions. Can be used in LLD, logfile filtering and some other places. See https://www.zabbix.com/documentation/3.0/manual/regular_expressions"
+   "globalregexp": "A global regular expression, defined in Administration -> General -> Regular expressions. Can be used in LLD, logfile filtering and some other places. See https://www.zabbix.com/documentation/3.0/manual/regular_expressions",
+   "userparameter": "Any command, executed on the agent side that returns values for items. The most popular way to extend agent data collection. See https://www.zabbix.com/documentation/3.0/manual/config/items/userparameters",
+   "protocols": "Protocols, used between different Zabbix components. See https://www.zabbix.org/wiki/Docs/protocols"
 }
