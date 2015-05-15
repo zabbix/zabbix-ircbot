@@ -28,5 +28,7 @@
    "agentactive": "alias:activeagent",
    "globalregexp": "A global regular expression, defined in Administration -> General -> Regular expressions. Can be used in LLD, logfile filtering and some other places. See https://www.zabbix.com/documentation/3.0/manual/regular_expressions",
    "userparameter": "Any command, executed on the agent side that returns values for items. The most popular way to extend agent data collection. See https://www.zabbix.com/documentation/3.0/manual/config/items/userparameters",
-   "protocols": "Protocols, used between different Zabbix components. See https://www.zabbix.org/wiki/Docs/protocols"
+   "protocols": "Protocols, used between different Zabbix components. See https://www.zabbix.org/wiki/Docs/protocols",
+   "proxy": "Zabbix proxy is a remote data collector. Supports all collecting methods that server supports. Has a local database and can buffer values if server is not reachable. See https://www.zabbix.com/documentation/3.0/manual/distributed_monitoring/proxies",
+   "proxies": "alias:proxy"
 }
