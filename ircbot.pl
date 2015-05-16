@@ -76,11 +76,11 @@ sub reply
 
 my %COMMANDS =
 (
-    help  => { function => \&cmd_help,  usage => 'help <command> - print usage information'   },
-    issue => { function => \&cmd_issue, usage => 'issue <n|jira> - fetch issue description'   },
-    key   => { function => \&cmd_key,   usage => 'key <item key> - show item key description' },
+    help  => { function => \&cmd_help,  usage => 'help <command> - print usage information'                 },
+    issue => { function => \&cmd_issue, usage => 'issue <n|jira> - fetch issue description'                 },
+    key   => { function => \&cmd_key,   usage => 'key <item key> - show item key description'               },
     topic => { function => \&cmd_topic, usage => 'topic <topic>  - show short help message about the topic' },
-    reload=> { function => \&cmd_reload, usage => 'reload - reload topics' },
+    reload=> { function => \&cmd_reload, usage => 'reload - reload topics'                                  },
 );
 
 my @ignored_commands = qw (getquote note quote time seen botsnack);
@@ -158,9 +158,9 @@ sub cmd_key
 
         switch ($itemkey)
         {
-            case ''   { return "ERROR: Item key \"$_[0]\" not known.";                                  }
+            case ''   { return "ERROR: Item key \"$_[0]\" not known.";                           }
             case /, / { return "Multiple item keys match \"$_[0]\" (candidates are: $itemkey)."; }
-            else      { return "$itemkey: $itemkeys_read->{$itemkey}";                                  }
+            else      { return "$itemkey: $itemkeys_read->{$itemkey}";                           }
         }
     }
     else
