@@ -111,12 +111,23 @@ sub get_itemkey
 sub get_topic
 {
     my @topics = ();
+    my @return_topics;
+    my $aliased_topic;
     foreach my $topic (keys $topics_read)
     {
         push @topics, $topic if $topic =~ m/^\Q$_[0]\E/i;
     }
+    foreach my $topic (@topics) {
+        ($aliased_topic) = $topics_read->{$topic} =~ m/^alias:(.+)/;
+        if ($aliased_topic)
+        {
+            if (!any { $aliased_topic eq $_ } @topics ) { push @return_topics, $aliased_topic };
+        } else {
+            push @return_topics, $topic;
+        }
+    }
 
-    return join ', ', sort @topics;
+    return join ', ', sort @return_topics;
 }
 
 sub cmd_help
@@ -166,13 +177,9 @@ sub cmd_topic
 
         switch ($topic)
         {
-            case ''   { return "ERROR: Topic \"$_[0]\" not known.";                                }
+            case ''   { return "ERROR: Topic \"$_[0]\" not known.";                         }
             case /, / { return "Multiple topics match \"$_[0]\" (candidates are: $topic)."; }
-            else
-            {
-                if ($topics_read->{$topic} =~ /^alias:/) {($topic) = $topics_read->{$topic} =~ m/^alias:(.+)/};
-                return "$topic: $topics_read->{$topic}";
-            }
+            else      { return "$topic: $topics_read->{$topic}";                            }
         }
     }
     else
