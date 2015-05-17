@@ -6,6 +6,7 @@ use warnings;
 use POE;
 use POE::Component::IRC;
 use POE::Component::IRC::Plugin::Connector;
+use String::IRC;
 use POE::Component::Server::HTTP;
 use HTTP::Status;
 use Switch;
@@ -365,7 +366,12 @@ sub http_handler {
     my $user = $incoming_json->{user}->{displayName};
     my $username = $incoming_json->{user}->{name};
     print "Extracted [issue_key], summary, user (username): [$issuekey] $issuesummary  $user ($username)\n";
-    my $replymsg = "[$issuekey] $issuesummary by $user/$username (https://support.zabbix.com/browse/$issuekey)";
+    my $colouredissuekey = String::IRC->new($issuekey)->red;
+    # we only expect notifications about new issues created at this time
+    my $colouredbystring = String::IRC->new("created by $user/$username")->grey;
+    my $colouredissuesummary = String::IRC->new($issuesummary)->green;
+    my $colouredurl = String::IRC->new("https://support.zabbix.com/browse/$issuekey")->light_blue;
+    my $replymsg = "[$colouredissuekey] $colouredissuesummary $colouredbystring ($colouredurl)";
     reply ($config->{channel}, $replymsg);
     return RC_OK;
 }
