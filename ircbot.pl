@@ -6,6 +6,8 @@ use warnings;
 use POE;
 use POE::Component::IRC;
 use POE::Component::IRC::Plugin::Connector;
+use POE::Component::Server::HTTP;
+use HTTP::Status;
 use Switch;
 use JSON::XS;
 use List::MoreUtils qw(any);
@@ -26,6 +28,7 @@ $config->{real} = "Zabbix IRC Bot";
 $config->{server} = "irc.freenode.net";
 $config->{user} = "zabbix";
 $config->{reload_users} = ();
+$config->{jira_receiver_port} = "8000";
 
 ### read configuration
 if (open (my $fh, '<:raw', $config_file)) {
@@ -64,6 +67,12 @@ sub read_topics
 read_topics
 
 my ($irc) = POE::Component::IRC->spawn();
+
+my ($httpd) = POE::Component::Server::HTTP->new(
+    Port => $config->{jira_receiver_port},
+    ContentHandler => { '/jira-webhook' => \&http_handler },
+    Headers => { Server => 'Jira receiver' },
+);
 
 ### helper functions
 
@@ -342,6 +351,23 @@ sub on_default
 sub on_ignored
 {
     # ignore event
+}
+
+sub http_handler {
+    my ($request, $response) = @_;
+    $response->code(RC_OK);
+    $response->content("You requested " . $request->uri);
+    my $req_content = $request->content;
+    print "Incoming jira webhook request: $req_content\n";
+    my $incoming_json = decode_json($req_content);
+    my $issuekey = $incoming_json->{issue}->{key};
+    my $issuesummary = $incoming_json->{issue}->{fields}->{summary};
+    my $user = $incoming_json->{user}->{displayName};
+    my $username = $incoming_json->{user}->{name};
+    print "Extracted [issue_key], summary, user (username): [$issuekey] $issuesummary  $user ($username)\n";
+    my $replymsg = "[$issuekey] $issuesummary by $user/$username (https://support.zabbix.com/browse/$issuekey)";
+    reply ($config->{channel}, $replymsg);
+    return RC_OK;
 }
 
 ### connect to IRC
