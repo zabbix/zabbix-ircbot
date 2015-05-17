@@ -73,7 +73,7 @@ my ($irc) = POE::Component::IRC->spawn();
 
 my ($httpd) = POE::Component::Server::HTTP->new(
     Port => $config->{jira_receiver_port},
-    ContentHandler => { '$config->{jira_receiver_url}' => \&http_handler },
+    ContentHandler => { $config->{jira_receiver_url} => \&http_handler },
     Headers => { Server => $config->{jira_receiver_server_header} },
 );
 
