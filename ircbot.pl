@@ -30,6 +30,8 @@ $config->{server} = "irc.freenode.net";
 $config->{user} = "zabbix";
 $config->{reload_users} = ();
 $config->{jira_receiver_port} = "8000";
+$config->{jira_receiver_url} = "/jira-webhook";
+$config->{jira_receiver_server_header} = "Jira receiver";
 
 ### read configuration
 if (open (my $fh, '<:raw', $config_file)) {
@@ -71,8 +73,8 @@ my ($irc) = POE::Component::IRC->spawn();
 
 my ($httpd) = POE::Component::Server::HTTP->new(
     Port => $config->{jira_receiver_port},
-    ContentHandler => { '/jira-webhook' => \&http_handler },
-    Headers => { Server => 'Jira receiver' },
+    ContentHandler => { '$config->{jira_receiver_url}' => \&http_handler },
+    Headers => { Server => $config->{jira_receiver_server_header} },
 );
 
 ### helper functions

@@ -7,5 +7,8 @@
     "real": "Zabbix IRC Bot",
     "server": "irc.freenode.net",
     "user": "zabbix",
-    "reload_users": ["some", "users"]
+    "reload_users": ["some", "users"],
+    "jira_receiver_port": "8013",
+    "jira_receiver_url": "/jira-webhook",
+    "jira_receiver_server_header": "Jira receiver"
 }
