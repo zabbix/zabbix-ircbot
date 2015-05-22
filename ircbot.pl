@@ -363,18 +363,31 @@ sub http_handler {
     my $req_content = $request->content;
     print "Incoming jira webhook request: $req_content\n";
     my $incoming_json = decode_json($req_content);
-    my $issuekey = $incoming_json->{issue}->{key};
-    my $issuesummary = $incoming_json->{issue}->{fields}->{summary};
-    my $user = $incoming_json->{user}->{displayName};
-    my $username = $incoming_json->{user}->{name};
-    print "Extracted [issue_key], summary, user (username): [$issuekey] $issuesummary  $user ($username)\n";
-    my $colouredissuekey = String::IRC->new($issuekey)->red;
-    # we only expect notifications about new issues created at this time
-    my $colouredbystring = String::IRC->new("created by $user/$username")->grey;
-    my $colouredissuesummary = String::IRC->new($issuesummary)->green;
-    my $colouredurl = String::IRC->new("https://support.zabbix.com/browse/$issuekey")->light_blue;
-    my $replymsg = "[$colouredissuekey] $colouredissuesummary $colouredbystring ($colouredurl)";
-    reply ($config->{channel}, $replymsg);
+    my $webhookevent = $incoming_json->{webhookEvent};
+    if ($webhookevent eq "jira:issue_created")
+    {
+        # explicitly filter out only new issue notifications
+        # other possible events :
+        # - jira:issue_deleted
+        # - jira:issue_updated
+        # - jira:worklog_updated
+        my $issuekey = $incoming_json->{issue}->{key};
+        if ($issuekey =~ m/^(ZBX-|ZBXNEXT-)/)
+        {
+            # react to issues from ZBX and ZBXNEXT projects only
+            my $issuesummary = $incoming_json->{issue}->{fields}->{summary};
+            my $user = $incoming_json->{user}->{displayName};
+            my $username = $incoming_json->{user}->{name};
+            print "Extracted [issue_key], summary, user (username): [$issuekey] $issuesummary  $user ($username)\n";
+            my $colouredissuekey = String::IRC->new($issuekey)->red;
+            # we only expect notifications about new issues created at this time
+            my $colouredbystring = String::IRC->new("created by $user/$username")->grey;
+            my $colouredissuesummary = String::IRC->new($issuesummary)->green;
+            my $colouredurl = String::IRC->new("https://support.zabbix.com/browse/$issuekey")->light_blue;
+            my $replymsg = "[$colouredissuekey] $colouredissuesummary $colouredbystring ($colouredurl)";
+            reply ($config->{channel}, $replymsg);
+        }
+    }
     return RC_OK;
 }
 
