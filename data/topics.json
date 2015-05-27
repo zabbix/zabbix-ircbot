@@ -31,5 +31,6 @@
    "protocols": "Protocols, used between different Zabbix components. See https://www.zabbix.org/wiki/Docs/protocols",
    "proxy": "Zabbix proxy is a remote data collector. Supports all collecting methods that server supports. Has a local database and can buffer values if server is not reachable. See https://www.zabbix.com/documentation/3.0/manual/distributed_monitoring/proxies",
    "proxies": "alias:proxy",
-   "regexp": "Zabbix daemons use POSIX EXTENDED, frontend - PCRE. Note that global regexp testing can return different results from the actual daemon result, do not use PCRE features like lookarounds or PCRE character class syntax"
+   "regexp": "Zabbix daemons use POSIX EXTENDED, frontend - PCRE. Note that global regexp testing can return different results from the actual daemon result, do not use PCRE features like lookarounds or PCRE character class syntax",
+   "xml": "Zabbix hosts, templates, maps and screens can be exported to XML and imported. With maps, used images are exported (base64). With hosts/templates host groups are exported. Import down to the 1.8 XML format is supported. See https://www.zabbix.com/documentation/3.0/manual/xml_export_import"
 }
