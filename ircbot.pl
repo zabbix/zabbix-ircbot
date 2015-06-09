@@ -381,7 +381,11 @@ sub http_handler {
             print "Extracted [issue_key], summary, user (username): [$issuekey] $issuesummary  $user ($username)\n";
             my $colouredissuekey = String::IRC->new($issuekey)->red;
             # we only expect notifications about new issues created at this time
-            my $colouredbystring = String::IRC->new("created by $user/$username")->grey;
+            my $colouredbystring = String::IRC->new("created by $user")->grey;
+            if ($user ne $username)
+            {
+                $colouredbystring .= String::IRC->new("/$username")->grey;
+            }
             my $colouredissuesummary = String::IRC->new($issuesummary)->green;
             my $colouredurl = String::IRC->new("https://support.zabbix.com/browse/$issuekey")->light_blue;
             my $replymsg = "[$colouredissuekey] $colouredissuesummary $colouredbystring ($colouredurl)";
