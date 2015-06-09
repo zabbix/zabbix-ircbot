@@ -34,5 +34,8 @@
    "regexp": "Zabbix daemons use POSIX EXTENDED, frontend - PCRE. Note that global regexp testing can return different results from the actual daemon result, do not use PCRE features like lookarounds or PCRE character class syntax",
    "xml": "Zabbix hosts, templates, maps and screens can be exported to XML and imported. With maps, used images are exported (base64). With hosts/templates host groups are exported. Import down to the 1.8 XML format is supported. See https://www.zabbix.com/documentation/3.0/manual/xml_export_import",
    "valuemapping": "Ability to show human readable values for numeric codes like 1->Available in the frontend and notifications. Several value maps are preconfigured in Zabbix, Administration -> General -> Value mapping. No API or XML import/export support. See https://www.zabbix.com/documentation/3.0/manual/config/items/mapping",
-   "troubleshooting": "Agent does not work? Escalations do not stop? Some common troubleshooting steps at https://www.zabbix.org/wiki/Troubleshooting"
+   "troubleshooting": "Agent does not work? Escalations do not stop? Some common troubleshooting steps at https://www.zabbix.org/wiki/Troubleshooting",
+   "logmonitoring": "Zabbix agent (active) can monitor logfiles, key 'log'. Filtering by regexp supported, values can be extracted. Rotated logfile monitoring supported, key 'logrt'. See https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/log_items",
+   "logging": "Zabbix daemon log level can be changed runtime and for individual subprocesses, see http://blog.zabbix.com/zabbix-2-4-features-part-6-runtime-loglevel-changing",
+   "loglevel": "alias:logging"
 }
