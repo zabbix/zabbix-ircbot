@@ -39,5 +39,6 @@
    "logging": "Zabbix daemon log level can be changed runtime and for individual subprocesses, see http://blog.zabbix.com/zabbix-2-4-features-part-6-runtime-loglevel-changing",
    "loglevel": "alias:logging",
    "internalmonitoring": "Internal items can help to figure out how full caches are, how busy internal processes are etc. This can be used to determine how many processes are needed. Zabbix ships with default templates for internal monitoring. See http://blog.zabbix.com/monitoring-how-busy-zabbix-processes-are and https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/internal",
-   "frontendnotifications": "Zabbix may show popup notifications in the frontend with sound alarms. Configurable in user profile, may be limited by severity. See https://www.zabbix.com/documentation/3.0/manual/web_interface/user_profile/global_notifications"
+   "frontendnotifications": "Zabbix may show popup notifications in the frontend with sound alarms. Configurable in user profile, may be limited by severity. See https://www.zabbix.com/documentation/3.0/manual/web_interface/user_profile/global_notifications".
+   "housekeeper": "Internal process, removes history & trend data past retention periods/for deleted items, events, alerts, IT service & audit data, user sessions. Configurable in Administration->General->Housekeeping. Disabled after upgrade to 2.2"
 }
