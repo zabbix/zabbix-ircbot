@@ -247,7 +247,7 @@ sub cmd_issue
     {
         return +($issue - 1 <= $#issues ? get_issue($issues[-$issue]) : "ERROR: Issue \"$issue\" does not exist in chat history.");
     }
-    elsif ($issue =~ m/^\w{3,7}-\d{1,4}$/)
+    elsif ($issue =~ m/^\w{3,7}-\d{1,5}$/)
     {
         return get_issue($issue);
     }
@@ -321,7 +321,7 @@ sub on_public
     }
     else
     {
-        push @issues, map {uc} ($message =~ m/\b(\w{3,7}-\d{1,4})\b/g);
+        push @issues, map {uc} ($message =~ m/\b(\w{3,7}-\d{1,5})\b/g);
         @issues = @issues[-15 .. -1] if $#issues >= 15;
     }
 }
