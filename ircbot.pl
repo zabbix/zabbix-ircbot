@@ -13,24 +13,24 @@ use Switch::Plain;
 use JSON::XS;
 use List::MoreUtils qw(any);
 
-my $config_file = "ircbot.conf";
-my $datadir="data";
-my $item_key_file="$datadir/item_keys.json";
-my $topic_file="$datadir/topics.json";
+my $config_file   = "ircbot.conf";
+my $datadir       = "data";
+my $item_key_file = "$datadir/item_keys.json";
+my $topic_file    = "$datadir/topics.json";
 
 ### default configuration parameters
 my $config = {};
-$config->{channel} = "#zabbix";
-$config->{curl_flags} = "";
-$config->{jira_host} = "https://support.zabbix.com";
-$config->{nick} = "zabbixbot";
-$config->{port} = "6667";
-$config->{real} = "Zabbix IRC Bot";
-$config->{server} = "irc.freenode.net";
-$config->{user} = "zabbix";
-$config->{reload_users} = ();
-$config->{jira_receiver_port} = "8000";
-$config->{jira_receiver_url} = "/jira-webhook";
+$config->{channel}                     = "#zabbix";
+$config->{curl_flags}                  = "";
+$config->{jira_host}                   = "https://support.zabbix.com";
+$config->{nick}                        = "zabbixbot";
+$config->{port}                        = "6667";
+$config->{real}                        = "Zabbix IRC Bot";
+$config->{server}                      = "irc.freenode.net";
+$config->{user}                        = "zabbix";
+$config->{reload_users}                = ();
+$config->{jira_receiver_port}          = "8000";
+$config->{jira_receiver_url}           = "/jira-webhook";
 $config->{jira_receiver_server_header} = "Jira receiver";
 
 ### read configuration
