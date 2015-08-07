@@ -34,7 +34,8 @@ $config->{jira_receiver_url}           = "/jira-webhook";
 $config->{jira_receiver_server_header} = "Jira receiver";
 
 ### read configuration
-if (open (my $fh, '<:raw', $config_file)) {
+if (open(my $fh, '<:raw', $config_file))
+{
     my $configcontents; { local $/; $configcontents = <$fh>; }
     # if present in the JSON structure, will override parameters that were defined above
     close $fh;
@@ -45,7 +46,7 @@ if (open (my $fh, '<:raw', $config_file)) {
 my $fh;
 
 ### read item keys
-open ($fh, '<:raw', $item_key_file) or die "Can't open $item_key_file";
+open($fh, '<:raw', $item_key_file) or die "Can't open $item_key_file";
 my $itemkeycontents; { local $/; $itemkeycontents = <$fh>; }
 close $fh;
 my $itemkeys_read = decode_json($itemkeycontents);
@@ -60,7 +61,7 @@ my $reload_users = $config->{reload_users};
 
 sub read_topics
 {
-    open ($fh, '<:raw', $topic_file) or die "Can't open $topic_file";
+    open($fh, '<:raw', $topic_file) or die "Can't open $topic_file";
     my $topiccontents; { local $/; $topiccontents = <$fh>; }
     close $fh;
     $topics_read = decode_json($topiccontents);
@@ -72,9 +73,9 @@ read_topics
 my ($irc) = POE::Component::IRC->spawn();
 
 my ($httpd) = POE::Component::Server::HTTP->new(
-    Port => $config->{jira_receiver_port},
-    ContentHandler => { $config->{jira_receiver_url} => \&http_handler },
-    Headers => { Server => $config->{jira_receiver_server_header} },
+    Port           => $config->{jira_receiver_port},
+    ContentHandler => {$config->{jira_receiver_url} => \&http_handler},
+    Headers        => {Server => $config->{jira_receiver_server_header}},
 );
 
 ### helper functions
@@ -95,7 +96,7 @@ my %COMMANDS =
     reload=> { function => \&cmd_reload, usage => 'reload - reload topics'                                  },
 );
 
-my @ignored_commands = qw (getquote note quote time seen botsnack);
+my @ignored_commands = qw(getquote note quote time seen botsnack);
 
 sub get_command
 {
@@ -129,12 +130,15 @@ sub get_topic
     {
         push @topics, $topic if $topic =~ m/^\Q$_[0]\E/i;
     }
-    foreach my $topic (@topics) {
+    foreach my $topic (@topics)
+    {
         ($aliased_topic) = $topics_read->{$topic} =~ m/^alias:(.+)/;
         if ($aliased_topic)
         {
             if (!any { $aliased_topic eq $_ } @topics ) { push @return_topics, $aliased_topic };
-        } else {
+        }
+        else
+        {
             push @return_topics, $topic;
         }
     }
@@ -290,7 +294,7 @@ sub on_public
 
     $nick = (split /!/, $who)[0];
     $auth = $_[ARG3];
-    my $channel = $where->[0];
+    my $channel   = $where->[0];
     my $timestamp = localtime;
     my ($replymsg, $recipient);
 
@@ -317,7 +321,7 @@ sub on_public
         {
             $recipient = $nick;
         }
-        reply ($recipient, $replymsg);
+        reply($recipient, $replymsg);
     }
     else
     {
@@ -356,7 +360,8 @@ sub on_ignored
     # ignore event
 }
 
-sub http_handler {
+sub http_handler
+{
     my ($request, $response) = @_;
     $response->code(RC_OK);
     $response->content("You requested " . $request->uri);
@@ -389,7 +394,7 @@ sub http_handler {
             my $colouredissuesummary = String::IRC->new($issuesummary)->green;
             my $colouredurl = String::IRC->new("https://support.zabbix.com/browse/$issuekey")->light_blue;
             my $replymsg = "[$colouredissuekey] $colouredissuesummary $colouredbystring ($colouredurl)";
-            reply ($config->{channel}, $replymsg);
+            reply($config->{channel}, $replymsg);
         }
     }
     return RC_OK;
@@ -401,14 +406,14 @@ POE::Session->create
 (
     inline_states =>
     {
-        _default         => \&on_default,
-        _start           => \&on_start,
-        irc_001          => \&on_connected,
-        irc_public       => \&on_public,
-        irc_ctcp_action  => \&on_public,
-        irc_msg          => \&on_public,
+        _default        => \&on_default,
+        _start          => \&on_start,
+        irc_001         => \&on_connected,
+        irc_public      => \&on_public,
+        irc_ctcp_action => \&on_public,
+        irc_msg         => \&on_public,
 
-        map { ; "irc_$_" => \&on_ignored }
+        map {; "irc_$_" => \&on_ignored}
             qw(connected isupport join mode notice part ping registered quit
                002 003 004 005 251 254 255 265 266 332 333 353 366 422 451)
     }
