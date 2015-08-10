@@ -66,6 +66,7 @@ sub read_topics
     close $fh;
     $topics_read = decode_json($topiccontents);
     $alltopics = join(", ", sort {lc $a cmp lc $b} (keys $topics_read));
+    return;
 }
 
 read_topics
@@ -82,7 +83,9 @@ my ($httpd) = POE::Component::Server::HTTP->new(
 
 sub reply
 {
-    $irc->yield(privmsg => $_[0], $_[1]);
+    my ($recipient, $replymsg) = @_;
+    $irc->yield(privmsg => $recipient, $replymsg);
+    return;
 }
 
 ### public interface
@@ -244,8 +247,11 @@ sub get_issue
 
 sub cmd_issue
 {
-    @_ = ('1') if not @_;
-    my $issue = uc $_[0];
+    my $issue = '1';
+    if (@_)
+    {
+        $issue = uc $_[0];
+    }
 
     if ($issue =~ m/^\d+$/)
     {
