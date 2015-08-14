@@ -66,7 +66,6 @@ sub read_topics
     close $fh;
     $topics_read = decode_json($topiccontents);
     $alltopics = join(", ", sort {lc $a cmp lc $b} (keys $topics_read));
-    return;
 }
 
 read_topics
@@ -85,7 +84,6 @@ sub reply
 {
     my ($recipient, $replymsg) = @_;
     $irc->yield(privmsg => $recipient, $replymsg);
-    return;
 }
 
 ### public interface
@@ -226,14 +224,15 @@ my %issues = ();
 
 sub get_issue
 {
-    return $issues{$_[0]} if exists $issues{$_[0]};
+    my $issue_key = $_[0];
+    return $issues{$issue_key} if exists $issues{$issue_key};
 
-    my $json = `curl --silent $config->{curl_flags} $config->{jira_host}/rest/api/2/issue/$_[0]?fields=summary` or return "ERROR: Could not fetch issue description.";
+    my $json = `curl --silent $config->{curl_flags} $config->{jira_host}/rest/api/2/issue/$issue_key?fields=summary` or return "ERROR: Could not fetch issue description.";
 
     if (my ($descr) = $json =~ m!summary":"(.+)"}!)
     {
         $descr =~ s/\\([\\"])/$1/g;
-        return +($issues{$_[0]} = "[$_[0]] $descr (URL: https://support.zabbix.com/browse/$_[0])");
+        return +($issues{$issue_key} = "[$issue_key] $descr (URL: https://support.zabbix.com/browse/$issue_key)");
     }
     else
     {
@@ -263,7 +262,7 @@ sub cmd_issue
     }
     else
     {
-        return "ERROR: Argument \"$_[0]\" is not a number or an issue identifier.";
+        return "ERROR: Argument \"$issue\" is not a number or an issue identifier.";
     }
 }
 
