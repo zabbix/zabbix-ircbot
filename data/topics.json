@@ -45,5 +45,5 @@
    "triggers": "Triggers allow to define what a problem is, whether it's a simple threshold or a complex expression. Actual definition is supplied as an expression. Triggers may reference multiple items from multiple hosts. There are trigger 6 severities and triggers may depend on one another. See triggerfunctions and https://www.zabbix.com/documentation/3.0/manual/config/triggers/expression",
    "triggerfunctions": "Keywords that tell how to evaluate the data in trigger expressions. Popular functions include last(), min(), max(), avg(), nodata() and count(). See https://www.zabbix.com/documentation/3.0/manual/appendix/triggers/functions",
    "roadmap": "Zabbix roadmap: https://www.zabbix.org/wiki/Docs/roadmap",
-   "bugreporting": "Bug reporting guidelines: English only, test latest version, describe everything in the issue itself, no "me too" comments. See https://www.zabbix.org/wiki/Docs/bug_reporting_guidelines"
+   "bugreporting": "Bug reporting guidelines: English only, test latest version, describe everything in the issue itself, no \"me too\" comments. See https://www.zabbix.org/wiki/Docs/bug_reporting_guidelines"
 }
