@@ -37,10 +37,9 @@ $config->{jira_receiver_server_header} = "Jira receiver";
 ### read configuration
 if (open(my $fh, '<:raw', $config_file))
 {
-    my $configcontents; { local $/; $configcontents = <$fh>; }
+    my $config_read = do { local $/; decode_json(<$fh>); };
     # if present in the JSON structure, will override parameters that were defined above
     close $fh;
-    my $config_read = decode_json($configcontents);
     @$config{keys %$config_read} = values %$config_read;
 }
 
@@ -48,9 +47,8 @@ my $fh;
 
 ### read item keys
 open($fh, '<:raw', $item_key_file) or die "Can't open $item_key_file";
-my $itemkeycontents; { local $/; $itemkeycontents = <$fh>; }
+my $itemkeys_read = do { local $/; decode_json(<$fh>); };
 close $fh;
-my $itemkeys_read = decode_json($itemkeycontents);
 
 ### read helper topics
 
@@ -63,9 +61,8 @@ my $reload_users = $config->{reload_users};
 sub read_topics
 {
     open($fh, '<:raw', $topic_file) or die "Can't open $topic_file";
-    my $topiccontents; { local $/; $topiccontents = <$fh>; }
+    $topics_read = do { local $/; decode_json(<$fh>); };
     close $fh;
-    $topics_read = decode_json($topiccontents);
     $alltopics = join(", ", sort {lc $a cmp lc $b} (keys $topics_read));
 }
 
