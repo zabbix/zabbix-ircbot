@@ -88,10 +88,10 @@ sub reply
 
 my %COMMANDS =
 (
-    help  => { function => \&cmd_help,  usage => 'help <command> - print usage information'                 },
-    issue => { function => \&cmd_issue, usage => 'issue <n|jira> - fetch issue description'                 },
-    key   => { function => \&cmd_key,   usage => 'key <item key> - show item key description'               },
-    topic => { function => \&cmd_topic, usage => 'topic <topic>  - show short help message about the topic' },
+    help  => { function => \&cmd_help,   usage => 'help <command> - print usage information'                 },
+    issue => { function => \&cmd_issue,  usage => 'issue <n|jira> - fetch issue description'                 },
+    key   => { function => \&cmd_key,    usage => 'key <item key> - show item key description'               },
+    topic => { function => \&cmd_topic,  usage => 'topic <topic>  - show short help message about the topic' },
     reload=> { function => \&cmd_reload, usage => 'reload - reload topics'                                  },
 );
 
