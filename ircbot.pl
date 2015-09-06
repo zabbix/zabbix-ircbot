@@ -11,6 +11,7 @@ use POE::Component::Server::HTTP;
 use HTTP::Status;
 use Switch::Plain;
 use JSON::XS;
+# has to run with List::Util 1.25, which does not have 'any' yet
 use List::MoreUtils qw(any);
 
 my $config_file   = "ircbot.conf";
