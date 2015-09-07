@@ -9,7 +9,6 @@ use POE::Component::IRC::Plugin::Connector;
 use String::IRC;
 use POE::Component::Server::HTTP;
 use HTTP::Status;
-use Switch::Plain;
 use JSON::XS;
 # has to run with List::Util 1.25, which does not have 'any' yet
 use List::MoreUtils qw(any);
@@ -149,14 +148,11 @@ sub cmd_help
 {
     if (@_)
     {
-        my $command = get_command $_[0];
-
-        sswitch ($command)
-        {
-            case ''  : { return "ERROR: Command \"$_[0]\" does not exist.";                          }
-            case /, /: { return "ERROR: Command \"$_[0]\" is ambiguous (candidates are: $command)."; }
-            default  : { return $COMMANDS{$command}->{usage};                                        }
-        }
+        my $user_input = $_[0];
+        my $command = get_command $user_input;
+        return "ERROR: Command \"$user_input\" does not exist." if $command eq '';
+        return "ERROR: Command \"user_input\" is ambiguous (candidates are: $command)." if $command =~ m/, /;
+        return $COMMANDS{$command}->{usage};
     }
     else
     {
@@ -169,14 +165,11 @@ sub cmd_key
 {
     if (@_)
     {
-        my $itemkey = get_itemkey $_[0];
-
-        sswitch ($itemkey)
-        {
-            case ''  : { return "ERROR: Item key \"$_[0]\" not known.";                           }
-            case /, /: { return "Multiple item keys match \"$_[0]\" (candidates are: $itemkey)."; }
-            default  : { return "$itemkey: $itemkeys_read->{$itemkey}";                           }
-        }
+        my $user_input = $_[0];
+        my $itemkey = get_itemkey $user_input;
+        return "ERROR: Item key \"$user_input\" not known." if $itemkey eq '';
+        return "Multiple item keys match \"$user_input\" (candidates are: $itemkey)." if $itemkey =~ m/, /;
+        return "$itemkey: $itemkeys_read->{$itemkey}";
     }
     else
     {
@@ -188,14 +181,11 @@ sub cmd_topic
 {
     if (@_)
     {
-        my $topic = get_topic $_[0];
-
-        sswitch ($topic)
-        {
-            case ''  : { return "ERROR: Topic \"$_[0]\" not known.";                         }
-            case /, /: { return "Multiple topics match \"$_[0]\" (candidates are: $topic)."; }
-            default  : { return "$topic: $topics_read->{$topic}";                            }
-        }
+        my $user_input = $_[0];
+        my $topic = get_topic $user_input;
+        return "ERROR: Topic \"$user_input\" not known." if $topic eq '';
+        return "Multiple topics match \"$user_input\" (candidates are: $topic)." if $topic =~ m/, /;
+        return "$topic: $topics_read->{$topic}";
     }
     else
     {
@@ -309,11 +299,17 @@ sub on_public
         my $command = get_command $prefix;
         $argument =~ s/^\s+|\s+$//g if $argument;
 
-        sswitch ($command)
+        if ($command eq '')
         {
-            case ''  : { $replymsg = "ERROR: Command \"$prefix\" does not exist.";                                               }
-            case /, /: { $replymsg = "ERROR: Command \"$prefix\" is ambiguous (candidates are: $command).";                      }
-            default  : { $replymsg = $argument ? $COMMANDS{$command}->{function}($argument) : $COMMANDS{$command}->{function}(); }
+            $replymsg = "ERROR: Command \"$prefix\" does not exist.";
+        }
+        elsif ($command =~ /, /)
+        {
+            $replymsg = "ERROR: Command \"$prefix\" is ambiguous (candidates are: $command).";
+        }
+        else
+        {
+            $replymsg = $argument ? $COMMANDS{$command}->{function}($argument) : $COMMANDS{$command}->{function}();
         }
         if ($channel =~ m/^#/)
         {
