@@ -47,5 +47,6 @@
    "roadmap": "Zabbix roadmap: https://www.zabbix.org/wiki/Docs/roadmap",
    "bugreporting": "Bug reporting guidelines: English only, test latest version, describe everything in the issue itself, no \"me too\" comments. See https://www.zabbix.org/wiki/Docs/bug_reporting_guidelines",
    "vmware": "Built-in VMware monitoring connects to vCenter or vSphere. Can automatically discover hypervisors and virtual machines. Easiest is to use the default template \"Template Virt VMware\". See https://www.zabbix.com/documentation/3.0/manual/vm_monitoring",
-   "whatsnew": "To find out what new features and improvements appeared in a specific version or will appear in an upcoming one, check the wonderful \"What's new\" pages in the manual. See the corresponding version, for example https://www.zabbix.com/documentation/3.0/manual/introduction/whatsnew300"
+   "whatsnew": "To find out what new features and improvements appeared in a specific version or will appear in an upcoming one, check the wonderful \"What's new\" pages in the manual. See the corresponding version, for example https://www.zabbix.com/documentation/3.0/manual/introduction/whatsnew300",
+   "actionlog": "If you expect to but get no messages, check actionlog first. Reports -> Action log (Administration -> Audit -> Actions before 3.0). See https://www.zabbix.com/documentation/3.0/manual/web_interface/frontend_sections/reports/action_log"
 }
