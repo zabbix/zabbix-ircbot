@@ -362,6 +362,7 @@ sub on_ignored
 sub http_handler
 {
     my ($request, $response) = @_;
+    $response->protocol('HTTP/1.1');
     $response->code(RC_OK);
     $response->content("You requested " . $request->uri);
     my $req_content = $request->content;
