@@ -98,7 +98,7 @@ my @ignored_commands = qw(getquote note quote time seen botsnack);
 
 sub get_command
 {
-    my @commands = ();
+    my @commands;
 
     foreach my $command (keys %COMMANDS)
     {
@@ -110,7 +110,7 @@ sub get_command
 
 sub get_itemkey
 {
-    my @itemkeys = ();
+    my @itemkeys;
     foreach my $itemkey (keys $itemkeys_read)
     {
         push @itemkeys, $itemkey if $itemkey =~ m/^\Q$_[0]\E/;
@@ -121,7 +121,7 @@ sub get_itemkey
 
 sub get_topic
 {
-    my @topics = ();
+    my @topics;
     my @return_topics;
     my $aliased_topic;
     foreach my $topic (keys $topics_read)
@@ -207,8 +207,8 @@ sub cmd_reload
     }
 }
 
-my @issues = ();
-my %issues = ();
+my @issues;
+my %issues;
 
 sub get_issue
 {
@@ -332,7 +332,7 @@ sub on_public
 sub on_default
 {
     my ($event, $args) = @_[ARG0 .. $#_];
-    my @output = ();
+    my @output;
 
     return if $event eq '_child';
 
