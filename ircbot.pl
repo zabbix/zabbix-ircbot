@@ -338,17 +338,18 @@ sub on_default
 
     foreach (@$args)
     {
-        if (ref $_ eq 'ARRAY')
+        my $arg = $_;
+        if (ref $arg eq 'ARRAY')
         {
-            push @output, '[', join(', ', @$_), ']';
+            push @output, '[', join(', ', @$arg), ']';
             last;
         }
-        if (ref $_ eq 'HASH')
+        if (ref $arg eq 'HASH')
         {
-            push @output, '{', join(', ', %$_), '}';
+            push @output, '{', join(', ', %$arg), '}';
             last;
         }
-        push @output, "\"$_\"";
+        push @output, "\"$arg\"";
     }
 
     printf "[%s] unhandled event '%s' with arguments <%s>\n", scalar localtime, $event, join ' ', @output;
