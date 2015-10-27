@@ -386,11 +386,12 @@ sub on_ignored
 sub http_handler
 {
     my ($request, $response) = @_;
+    my $timestamp = localtime;
     $response->protocol('HTTP/1.1');
     $response->code(RC_OK);
     $response->content("You requested " . $request->uri);
     my $req_content = $request->content;
-    print "Incoming jira webhook request: $req_content\n";
+    print "[$timestamp] Incoming jira webhook request: $req_content\n";
     my $incoming_json = decode_json($req_content);
     my $webhookevent = $incoming_json->{webhookEvent};
     if ($webhookevent eq "jira:issue_created")
@@ -407,7 +408,7 @@ sub http_handler
             my $issuesummary = $incoming_json->{issue}->{fields}->{summary};
             my $user = $incoming_json->{user}->{displayName};
             my $username = $incoming_json->{user}->{name};
-            print "Extracted [issue_key], summary, user (username): [$issuekey] $issuesummary  $user ($username)\n";
+            print "[$timestamp] Extracted [issue_key], summary, user (username): [$issuekey] $issuesummary  $user ($username)\n";
             my $colouredissuekey = String::IRC->new($issuekey)->red;
             # we only expect notifications about new issues created at this time
             my $colouredbystring = String::IRC->new("created by $user")->grey;
