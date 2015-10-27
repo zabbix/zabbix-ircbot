@@ -17,6 +17,7 @@ my $config_file   = "ircbot.conf";
 my $datadir       = "data";
 my $item_key_file = "$datadir/item_keys.json";
 my $topic_file    = "$datadir/topics.json";
+my $keyword_file  = "$datadir/keywords.json";
 
 ### default configuration parameters
 my $config = {};
@@ -67,6 +68,19 @@ sub read_topics
 
 read_topics
 
+### read keywords
+
+my $keywords_read;
+
+sub read_keywords
+{
+    open($fh, '<:raw', $keyword_file) or die "Can't open $keyword_file";
+    $keywords_read = do { local $/; decode_json(<$fh>); };
+    close $fh;
+}
+
+read_keywords
+
 my ($irc) = POE::Component::IRC->spawn();
 
 my ($httpd) = POE::Component::Server::HTTP->new(
@@ -91,7 +105,7 @@ my %COMMANDS =
     issue => { function => \&cmd_issue,  usage => 'issue <n|jira> - fetch issue description'                },
     key   => { function => \&cmd_key,    usage => 'key <item key> - show item key description'              },
     topic => { function => \&cmd_topic,  usage => 'topic <topic> - show short help message about the topic' },
-    reload=> { function => \&cmd_reload, usage => 'reload - reload topics'                                  },
+    reload=> { function => \&cmd_reload, usage => 'reload - reload topics and keywords'                     },
 );
 
 my @ignored_commands = qw(getquote note quote time seen botsnack);
@@ -199,7 +213,8 @@ sub cmd_reload
     {
         if (!any { $nick eq $_ } @$reload_users ) { return "ERROR: Not authorised to reload" };
         read_topics;
-        return "Topics reloaded";
+        read_keywords;
+        return "Topics and keywords reloaded";
     }
     else
     {
@@ -290,6 +305,15 @@ sub on_public
     my $channel   = $where->[0];
     my $timestamp = localtime;
     my ($replymsg, $recipient);
+    if ($channel =~ m/^#/)
+    {
+        # message in a channel
+        $recipient = $channel;
+    }
+    else
+    {
+        $recipient = $nick;
+    }
 
     print "[$timestamp] $channel <$nick> $message\n";
 
@@ -311,21 +335,20 @@ sub on_public
         {
             $replymsg = $argument ? $COMMANDS{$command}->{function}($argument) : $COMMANDS{$command}->{function}();
         }
-        if ($channel =~ m/^#/)
-        {
-            # message in a channel
-            $recipient = $channel;
-        }
-        else
-        {
-            $recipient = $nick;
-        }
         reply($recipient, $replymsg);
     }
     else
     {
         push @issues, map {uc} ($message =~ m/\b(\w{3,7}-\d{1,5})\b/g);
         @issues = @issues[-15 .. -1] if $#issues >= 15;
+
+        foreach my $keyword (keys $keywords_read)
+        {
+            if ($message =~ m/$keyword/i)
+            {
+                reply($recipient, "$nick, " . $keywords_read->{$keyword});
+            }
+        }
     }
 }
 
