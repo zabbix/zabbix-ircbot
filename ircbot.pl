@@ -359,9 +359,8 @@ sub on_default
 
     return if $event eq '_child';
 
-    foreach (@$args)
+    foreach my $arg (@$args)
     {
-        my $arg = $_;
         if (ref $arg eq 'ARRAY')
         {
             push @output, '[', join(', ', @$arg), ']';
