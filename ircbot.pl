@@ -85,6 +85,9 @@ my ($irc) = POE::Component::IRC->spawn();
 
 my ($httpd) = POE::Component::Server::HTTP->new(
     Port           => $config->{jira_receiver_port},
+    PreHandler     => {
+        '/'        => sub {$_[0]->header(Connection => 'close')}
+    },
     ContentHandler => {$config->{jira_receiver_url} => \&http_handler},
     Headers        => {Server => $config->{jira_receiver_server_header}},
 );
@@ -386,7 +389,6 @@ sub http_handler
 {
     my ($request, $response) = @_;
     my $timestamp = localtime;
-    $response->protocol('HTTP/1.1');
     $response->code(RC_OK);
     $response->content("You requested " . $request->uri);
     my $req_content = $request->content;
