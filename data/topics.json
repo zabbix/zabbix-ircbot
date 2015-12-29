@@ -52,5 +52,6 @@
    "items": "Data collection entities, might be known as \"metrics\" in other solutions. See various item types at https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes",
    "demo": "Online Zabbix development version demo at http://zabbix.org/zabbix/",
    "calculateditems": "Calculated items allow to write a formula, referencing other items on the same or other hosts. Trigger functions may be used in the formula. See https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/calculated",
-   "svn": "Zabbix source code is stored in an SVN repository. Get development versions as per http://zabbix.org/wiki/Get_Zabbix#Development_versions and see http://zabbix.org/wiki/Compilation_instructions#From_SVN_checkout on how to compile them"
+   "svn": "Zabbix source code is stored in an SVN repository. Get development versions as per http://zabbix.org/wiki/Get_Zabbix#Development_versions and see http://zabbix.org/wiki/Compilation_instructions#From_SVN_checkout on how to compile them",
+   "quoting": "In Zabbix, always use doublequotes. Single quotes not supported for item key parameters, Zabbix is not a shell."
 }
