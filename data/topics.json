@@ -57,5 +57,6 @@
    "webmonitoring": "Zabbix has a built-in web monitoring, based on libcurl (JavaScript not supported). Scenarios with steps can be configured, HTTP proxies, basic & NTLM & SSL auth and other features are available. See https://www.zabbix.com/documentation/2.4/manual/web_monitoring",
    "inventory": "Zabbix suports host inventory that can be manually or automatically (items can put values in inventory fields) populated. See https://www.zabbix.com/documentation/3.0/manual/config/hosts/inventory",
    "time-based": "Trigger functions nodata(), fuzzytime, now() and others are said to be time-based. If trigger expression includes at least one time-based function, trigger is recalculated every 30 seconds. See https://www.zabbix.com/documentation/3.0/manual/config/triggers",
-   "simplechecks": "Zabbix item type that is executed from server or proxy. Includes TCP port, basic service and ICMP items. See https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/simple_checks"
+   "simplechecks": "Zabbix item type that is executed from server or proxy. Includes TCP port, basic service and ICMP items. See https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/simple_checks",
+   "zabconf": "alias:conference"
 }
