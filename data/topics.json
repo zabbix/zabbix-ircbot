@@ -9,7 +9,7 @@
    "compatibility": "Zabbix server and proxies must be same major version (2.4.2 and 2.4.4 is ok); all older agent versions are supported down to 1.0; agents more recent than server/proxy are not supported. See https://www.zabbix.com/documentation/3.0/manual/appendix/compatibility",
    "ask": "Do not ask for a permission to ask a question. Ask right away to save time. Be specific right away so others do not have to spend time on clarifying the details you could have provided early on.",
    "timeshift": "Trigger function parameter that makes the function act as if it was transported some time ago. See https://www.zabbix.com/documentation/3.0/manual/config/triggers/expression",
-   "usermacros": "User macros (think of them as variables) allow to override trigger thresholds and function parameters, SNMP community and other parameters per host even if items come from a single template. See https://www.zabbix.com/documentation/3.0/manual/config/macros/usermacros",
+   "usermacros": "User macros (think of them as variables) allow to override trigger thresholds and function parameters, SNMP community and other parameters per host even if items come from a single template. See macrocontext and https://www.zabbix.com/documentation/3.0/manual/config/macros/usermacros",
    "discovery": "Always clarify what type of discovery a question is about - Zabbix has network discovery, low level discovery and active agent auto-registration.",
    "aggregateitems": "Aggregate items allow to calculate data across hostgroups - for example, average queries per second across all database servers or total diskspace on all fileservers. see https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/aggregate",
    "trunk": "Zabbix uses Subversion for version control. The most recent development branch is called \"trunk\" - it will become the next major release. Testing it allows to see new features early and can influence Zabbix development. See https://www.zabbix.org/wiki/Get_Zabbix",
@@ -58,5 +58,7 @@
    "inventory": "Zabbix suports host inventory that can be manually or automatically (items can put values in inventory fields) populated. See https://www.zabbix.com/documentation/3.0/manual/config/hosts/inventory",
    "time-based": "Trigger functions nodata(), fuzzytime, now() and others are said to be time-based. If trigger expression includes at least one time-based function, trigger is recalculated every 30 seconds. See https://www.zabbix.com/documentation/3.0/manual/config/triggers",
    "simplechecks": "Zabbix item type that is executed from server or proxy. Includes TCP port, basic service and ICMP items. See https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/simple_checks",
-   "zabconf": "alias:conference"
+   "zabconf": "alias:conference",
+   "interface": "Zabbix hosts can have interfaces of 4 types - passive agent, SNMP, JMX and IPMI. Interface must be present to add items of that type. Interfaces, used in items, cannot be removed. If there are no items of that type, interface is ignored.",
+   "macrocontext": "Usermacros can have context applied. When looking up, if no context macro exists, lookup falls back to plain macro name. If {$THRESHOLD:/home} is not present, value of {$THRESHOLD} is used. See macrocontext"
 }
