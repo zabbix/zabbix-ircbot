@@ -60,5 +60,6 @@
    "simplechecks": "Zabbix item type that is executed from server or proxy. Includes TCP port, basic service and ICMP items. See https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/simple_checks",
    "zabconf": "alias:conference",
    "interface": "Zabbix hosts can have interfaces of 4 types - passive agent, SNMP, JMX and IPMI. Interface must be present to add items of that type. Interfaces, used in items, cannot be removed. If there are no items of that type, interface is ignored.",
-   "macrocontext": "Usermacros can have context applied. When looking up, if no context macro exists, lookup falls back to plain macro name. If {$THRESHOLD:/home} is not present, value of {$THRESHOLD} is used. See macrocontext"
+   "macrocontext": "Usermacros can have context applied. When looking up, if no context macro exists, lookup falls back to plain macro name. If {$THRESHOLD:/home} is not present, value of {$THRESHOLD} is used. See macrocontext",
+   "networkdiscovery": "Zabbix can scan an IP range for various services using discovery rules, actions can add hosts, link them to templates, add to groups. See https://www.zabbix.com/documentation/3.0/manual/discovery/network_discovery"
 }
