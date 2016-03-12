@@ -43,6 +43,8 @@ if (open(my $fh, '<:raw', $config_file))
     @$config{keys %$config_read} = values %$config_read;
 }
 
+# bot can't change the nickname, so we store the length once
+my $nicklength = length($config->{nick});
 my $fh;
 
 ### read item keys
@@ -96,8 +98,20 @@ my ($httpd) = POE::Component::Server::HTTP->new(
 
 sub reply
 {
+    # IRC messages consist of "PRIVMSG <recipient> <message>". They can be of 512 characters max, but have trailing CRLF.
+    # The message also is colon-prefixed. Accounting for the command, spaces, CRLF and the colon makes the max
+    #  recipient+message length of 500.
+    # ...but there's also prefix, and servers will add it when sending messages to each other. Especially with Freenode
+    #  cloaking, there is no way to know the final max length of the message. POE::Component::IRC by default trims lines
+    #  at 450-<nickname length>, thus we will split at the same length to be safe.
+    # "10" is the total length of the command (PRIVMSG), spaces, colon
     my ($recipient, $replymsg) = @_;
-    $irc->yield(privmsg => $recipient, $replymsg);
+    my $contentlimit = 450 - 10 - $nicklength - length($recipient);
+    my @messages = unpack("(A$contentlimit)*", $replymsg);
+    foreach (@messages) {
+        my $message = $_;
+        $irc->yield(privmsg => $recipient, $message);
+    }
 }
 
 ### public interface
