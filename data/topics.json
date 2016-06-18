@@ -57,7 +57,7 @@
    "webmonitoring": "Zabbix has a built-in web monitoring, based on libcurl (JavaScript not supported). Scenarios with steps can be configured, HTTP proxies, basic & NTLM & SSL auth and other features are available. See https://www.zabbix.com/documentation/3.0/manual/web_monitoring",
    "inventory": "Zabbix suports host inventory that can be manually or automatically (items can put values in inventory fields) populated. See https://www.zabbix.com/documentation/3.0/manual/config/hosts/inventory",
    "time-based": "Trigger functions nodata(), fuzzytime, now() and others are said to be time-based. If trigger expression includes at least one time-based function, trigger is recalculated every 30 seconds. See https://www.zabbix.com/documentation/3.0/manual/config/triggers",
-   "simplechecks": "Zabbix item type that is executed from server or proxy. Includes TCP port, basic service and ICMP (via fping) items. fping3 supported since 2.2.12/2.4.8/3.0.2. See https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/simple_checks and https://www.zabbix.com/documentation/3.0/manual/appendix/items/service_check_details",
+   "simplechecks": "Zabbix item type that is executed from server or proxy. Includes TCP port, basic service and ICMP items. See https://www.zabbix.com/documentation/3.0/manual/config/items/itemtypes/simple_checks and https://www.zabbix.com/documentation/3.0/manual/appendix/items/service_check_details and icmppingitems",
    "zabconf": "alias:conference",
    "interface": "Zabbix hosts can have interfaces of 4 types - passive agent, SNMP, JMX and IPMI. Interface must be present to add items of that type. Interfaces, used in items, cannot be removed. If there are no items of that type, interface is ignored.",
    "macrocontext": "Usermacros can have context applied. When looking up, if no context macro exists, lookup falls back to plain macro name. If {$THRESHOLD:/home} is not present, value of {$THRESHOLD} is used. See macrocontext",
@@ -67,5 +67,17 @@
    "globalscripts": "Scripts configured in Administration -> Scripts, shown in the host popup menus in Dashboard, Latest data, Overview, Events, Triggers, Maps and host inventory. Nesting possible with /. Always redirect STDERR to STDOUT. Reusable in action operations. See https://www.zabbix.com/documentation/3.0/manual/web_interface/frontend_sections/administration/scripts",
    "escalations": "Alerts can be delayed, repeated, escalated to another user or group. Escalation can stop when the problem is acknowledged. See https://www.zabbix.com/documentation/3.0/manual/config/notifications/action/escalations",
    "triggerdependencies": "Triggers may depend on one another. Dependent triggers are hidden in the frontend if their dependency is in a PROBLEM state. Actions don't fire for dependent triggers. Dependencies can be nested. Multiple dependencies are OR-ed, only. See https://www.zabbix.com/documentation/3.0/manual/config/triggers/dependencies",
-   "dependencies": "alias:triggerdependencies"
+   "dependencies": "alias:triggerdependencies",
+   "forceitempolling": "Polled Zabbix items are checked on a fixed schedule. There is no way to force-poll or speed up polling of any item in Zabbix, including unsupported items. Vote on https://support.zabbix.com/browse/ZBXNEXT-473",
+   "webscenarios": "alias:webmonitoring",
+   "templates": "To manage items, triggers, custom graphs and other entities on multiple hosts, use templates. Templates are linked to hosts. Groups are used to organise templates themselves, adding a template to a group does not affect the hosts in that group. See https://www.zabbix.com/documentation/3.0/manual/config/templates/template and https://www.zabbix.org/wiki/Zabbix_Templates",
+   "templating": "alias:templates",
+   "linkindicators": "Multiple triggers may be assigned to network map links. The active trigger with the highest severity will determine the link colour and style (like line, dashed line, bold line etc). See https://www.zabbix.com/documentation/3.0/manual/config/visualisation/maps/links",
+   "networkmaps": "Network maps are fixed areas that may hold plain images or show status of triggers, hosts, host groups or other maps. Links can connect elements and item data can be displayed in element and link labels. Link colour can change based on triggers. See https://www.zabbix.com/documentation/3.0/manual/config/visualisation/maps/map and linkindicators",
+   "triggerhysteresis": "Triggers can be made to fire at one threshold, but resolve at another (sort of having a state memory, hysteresis). That's one way to reduce trigger flapping. Zabbix 3.2 will change this feature. See https://www.zabbix.com/documentation/2.4/manual/config/triggers/expression#hysteresis",
+   "hysteresis": "alias:triggerhysteresis",
+   "hysteresis": "alias:triggerflapping",
+   "hysteresis": "alias:flapping",
+   "fping": "Zabbix uses fping utility for ICMP ping items. fping3 supported since 2.2.12/2.4.8/3.0.2. Most distributions have separate fping and fping6 binaries for IPv4 and IPv6, full path to them configured in server/proxy config. fping must be setuid root. See https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/simple_checks#icmp_pings",
+   "icmppingitems": "icmpping/icmppingloss/icmppingsec internal checks allow specifying packet count, size, interval and timeout. These items use fping. See https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/simple_checks and fping"
 }
