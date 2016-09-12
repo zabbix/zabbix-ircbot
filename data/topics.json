@@ -79,5 +79,8 @@
    "alias:triggerflapping": "alias:hysteresis",
    "flapping": "alias:hysteresis",
    "fping": "Zabbix uses fping utility for ICMP ping items. fping3 supported since 2.2.12/2.4.8/3.0.2. Most distributions have separate fping and fping6 binaries for IPv4 and IPv6, full path to them configured in server/proxy config. fping must be setuid root. See https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/simple_checks#icmp_pings",
-   "icmppingitems": "icmpping/icmppingloss/icmppingsec internal checks allow specifying packet count, size, interval and timeout. These items use fping. See https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/simple_checks and fping"
+   "icmppingitems": "icmpping/icmppingloss/icmppingsec internal checks allow specifying packet count, size, interval and timeout. These items use fping. See https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/simple_checks and fping",
+   "screens": "Screens are tables that can contain graphs, item values, maps, other screens and much more. Configured on a global level; only by superadmins until 3.2, by any user since 3.2. 'Dynamic item' option allows to switch host in the monitoring view. See templatedscreens and https://www.zabbix.com/documentation/3.0/manual/config/visualisation/screens",
+   "templatedscreens": "Screens that can be created in a template and are only available for the linked hosts. Hosts do not get a copy of the screen like they do with items, triggers etc. Much more limited than normal screens. Available from the host popup menu in latest data, maps and other pages. See screens",
+   "LTS": "Long Term Support[ed release]. A Zabbix release that is supported for 3 years in general and 2 additional years for security & critical fixes. Non-LTS releases are supported for one month after the release of the next version. LTS: 2.0, 2.2, 3.0; non-LTS: 2.4, 3.2. See http://www.zabbix.com/life_cycle_and_release_policy.php"
 }
