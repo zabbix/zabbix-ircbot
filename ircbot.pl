@@ -125,7 +125,7 @@ my %COMMANDS =
     reload=> { function => \&cmd_reload, usage => 'reload - reload topics and keywords'                     },
 );
 
-my @ignored_commands = qw(getquote note quote time seen botsnack addquote karma);
+my @ignored_commands = qw(getquote note quote time seen botsnack addquote karma lart);
 
 sub get_command
 {
