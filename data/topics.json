@@ -76,7 +76,7 @@
    "networkmaps": "Network maps are fixed areas that may hold plain images or show status of triggers, hosts, host groups or other maps. Links can connect elements and item data can be displayed in element and link labels. Link colour can change based on triggers. See https://www.zabbix.com/documentation/3.2/manual/config/visualisation/maps/map and linkindicators",
    "triggerhysteresis": "Triggers can be made to fire at one threshold, but resolve at another (sort of having a state memory, hysteresis). That's one way to reduce trigger flapping. Zabbix 3.2 will change this feature. See https://www.zabbix.com/documentation/2.4/manual/config/triggers/expression#hysteresis",
    "triggerhysteresis": "alias:hysteresis",
-   "alias:triggerflapping": "alias:hysteresis",
+   "triggerflapping": "alias:hysteresis",
    "flapping": "alias:hysteresis",
    "fping": "Zabbix uses fping utility for ICMP ping items. fping3 supported since 2.2.12/2.4.8/3.0.2. Most distributions have separate fping and fping6 binaries for IPv4 and IPv6, full path to them configured in server/proxy config. fping must be setuid root. See https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/simple_checks#icmp_pings",
    "icmppingitems": "icmpping/icmppingloss/icmppingsec internal checks allow specifying packet count, size, interval and timeout. These items use fping. See https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/simple_checks and fping",
