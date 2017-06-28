@@ -85,5 +85,7 @@
    "LTS": "Long Term Support[ed release]. A Zabbix release that is supported for 3 years in general and 2 additional years for security & critical fixes. Non-LTS releases are supported for one month after the release of the next version. LTS: 2.0, 2.2, 3.0, [4.0]; non-LTS: 2.4, 3.2, [3.4]. See http://www.zabbix.com/life_cycle_and_release_policy.php",
    "upgradenotes": "Upgrade notes document requirement changes, backwards-incompatible changes and other important things about upgrading Zabbix. Always read upgrade notes. See the corresponding version, for example https://www.zabbix.com/documentation/3.2/manual/installation/upgrade_notes_320",
    "java": "Zabbix supports Java JMX monitoring natively with a separate component - Java gateway. Currently only RMI is supported - remoting-jmx (recent JBoss), iiop, t3 (Weblogic) and other endpoints are not supported. See https://www.zabbix.com/documentation/3.2/manual/config/items/itemtypes/jmx_monitoring",
-   "jmx": "alias:java"
+   "jmx": "alias:java",
+   "predictivefunctions": "Zabbix can predict when a disk will be full or when memory usage will reach a specific threshold. See https://www.zabbix.com/documentation/3.2/manual/config/triggers/prediction",
+   "forecasting": "alias:predictivefunctions"
 }
