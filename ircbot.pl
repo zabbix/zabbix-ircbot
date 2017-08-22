@@ -47,11 +47,6 @@ if (open(my $fh, '<:raw', $config_file))
 my $nicklength = length($config->{nick});
 my $fh;
 
-### read item keys
-open($fh, '<:raw', $item_key_file) or die "Can't open $item_key_file";
-my $itemkeys_read = do { local $/; decode_json(<$fh>); };
-close $fh;
-
 ### read helper topics
 
 my $topics_read;
@@ -82,6 +77,19 @@ sub read_keywords
 }
 
 read_keywords
+
+### read item keys
+
+my $itemkeys_read;
+
+sub read_itemkeys
+{
+    open($fh, '<:raw', $item_key_file) or die "Can't open $item_key_file";
+    $itemkeys_read = do { local $/; decode_json(<$fh>); };
+    close $fh;
+}
+
+read_itemkeys
 
 my ($irc) = POE::Component::IRC->spawn();
 
@@ -122,7 +130,7 @@ my %COMMANDS =
     issue => { function => \&cmd_issue,  usage => 'issue <n|jira> - fetch issue description'                },
     key   => { function => \&cmd_key,    usage => 'key <item key> - show item key description'              },
     topic => { function => \&cmd_topic,  usage => 'topic <topic> - show short help message about the topic' },
-    reload=> { function => \&cmd_reload, usage => 'reload - reload topics and keywords'                     },
+    reload=> { function => \&cmd_reload, usage => 'reload - reload topics, keywords and item keys'          },
 );
 
 my @ignored_commands = qw(getquote note quote time seen botsnack addquote karma lart);
@@ -231,7 +239,8 @@ sub cmd_reload
         if (!any { $nick eq $_ } @$reload_users ) { return "ERROR: Not authorised to reload" };
         read_topics;
         read_keywords;
-        return "Topics and keywords reloaded";
+        read_itemkeys;
+        return "Topics, keywords and item keys reloaded";
     }
     else
     {
