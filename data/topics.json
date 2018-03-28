@@ -83,7 +83,7 @@
    "screens": "Screens are tables that can contain graphs, item values, maps, other screens and much more. Configured on a global level; only by superadmins until 3.2, by any user since 3.2. 'Dynamic item' option allows to switch host in the monitoring view. See templatedscreens and https://www.zabbix.com/documentation/3.2/manual/config/visualisation/screens",
    "templatedscreens": "Screens that can be created in a template and are only available for the linked hosts. Hosts do not get a copy of the screen like they do with items, triggers etc. Much more limited than normal screens. Available from the host popup menu in latest data, maps and other pages. See screens",
    "LTS": "Long Term Support[ed release]. A Zabbix release that is supported for 3 years in general and 2 additional years for security & critical fixes. Non-LTS releases are supported for one month after the release of the next version. LTS: 2.0, 2.2, 3.0, [4.0]; non-LTS: 2.4, 3.2, [3.4]. See http://www.zabbix.com/life_cycle_and_release_policy.php",
-   "lifecycle": "LTS"
+   "lifecycle": "LTS",
    "upgradenotes": "Upgrade notes document requirement changes, backwards-incompatible changes and other important things about upgrading Zabbix. Always read upgrade notes. See the corresponding version, for example https://www.zabbix.com/documentation/3.2/manual/installation/upgrade_notes_320",
    "java": "Zabbix supports Java JMX monitoring natively with a separate component - Java gateway. Currently only RMI is supported - remoting-jmx (recent JBoss), iiop, t3 (Weblogic) and other endpoints are not supported. See https://www.zabbix.com/documentation/3.2/manual/config/items/itemtypes/jmx_monitoring",
    "jmx": "alias:java",
