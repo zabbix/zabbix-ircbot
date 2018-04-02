@@ -90,5 +90,6 @@
    "predictivefunctions": "Zabbix can predict when a disk will be full or when memory usage will reach a specific threshold. See https://www.zabbix.com/documentation/3.2/manual/config/triggers/prediction",
    "forecasting": "alias:predictivefunctions",
    "actionsimulator": "A Zabbix frontend patch, allowing to examine alert configuration in great detail. Can help figuring out why an alert was not sent. See https://www.zabbix.org/wiki/Docs/action_simulator and http://www.zabbixbook.com/2017/04/12/still-wondering-about-missing-notification-in-2017/",
-   "odbc":"Zabbix can perform direct database queries as items, using ODBC library. See https://www.zabbix.com/documentation/3.4/manual/config/items/itemtypes/odbc_checks"
+   "odbc":"Zabbix can perform direct database queries as items, using ODBC library. See https://www.zabbix.com/documentation/3.4/manual/config/items/itemtypes/odbc_checks",
+   "workingtime": "Zabbix graphs have white background for \"working time\" and grey background for \"non-working time\". Custom graphs may have this feature disabled. What is considered \"working time\" can be configured in Administration -> General -> Working time. See https://www.zabbix.com/documentation/3.4/manual/web_interface/frontend_sections/administration/general#working_time"
 }
