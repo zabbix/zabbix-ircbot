@@ -60,7 +60,7 @@ sub read_topics
     open($fh, '<:raw', $topic_file) or die "Can't open $topic_file";
     $topics_read = do { local $/; decode_json(<$fh>); };
     close $fh;
-    $alltopics = join(", ", sort {lc $a cmp lc $b} (keys $topics_read));
+    $alltopics = join(", ", sort {lc $a cmp lc $b} (keys %$topics_read));
 }
 
 read_topics
@@ -150,7 +150,7 @@ sub get_command
 sub get_itemkey
 {
     my @itemkeys;
-    foreach my $itemkey (keys $itemkeys_read)
+    foreach my $itemkey (keys %$itemkeys_read)
     {
         push @itemkeys, $itemkey if $itemkey =~ m/^\Q$_[0]\E/;
     }
@@ -163,7 +163,7 @@ sub get_topic
     my @topics;
     my @return_topics;
     my $aliased_topic;
-    foreach my $topic (keys $topics_read)
+    foreach my $topic (keys %$topics_read)
     {
         push @topics, $topic if $topic =~ m/^\Q$_[0]\E/i;
     }
@@ -368,7 +368,7 @@ sub on_public
         push @issues, map {uc} ($message =~ m/\b(\w{3,7}-\d{1,5})\b/g);
         @issues = @issues[-15 .. -1] if $#issues >= 15;
 
-        foreach my $keyword (keys $keywords_read)
+        foreach my $keyword (keys %$keywords_read)
         {
             if ($message =~ m/$keyword/i)
             {
