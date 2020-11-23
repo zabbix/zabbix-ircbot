@@ -1,1 +1,5 @@
 Zabbix IRC bot that is running on #zabbix on Freenode.
+
+Type "!help" to see the help topics.
+Type "!key <item key>" to see item key description.
+
